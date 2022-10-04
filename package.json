@@ -1,8 +1,8 @@
 {
-  "name": "mm-developer-portal",
+  "name": "mm-developer-portal-react",
   "version": "1.0.0",
   "private": true,
-  "description": "mm-developer-portal",
+  "description": "mm-developer-portal-react",
   "author": "Samuel Parkinson",
   "keywords": [
     "gatsby"
