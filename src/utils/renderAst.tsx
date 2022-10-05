@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import {
+  Box,
   Typography,
   List,
   ListItem,
@@ -74,6 +75,22 @@ const renderAst = new rehypeReact({
     ),
     a: ({ children, ...props }: PropsWithChildren) => (
       <Link {...props}>{children}</Link>
+    ),
+    div: (props: { className?: string } & PropsWithChildren) => (
+      <Box
+        {...props}
+        sx={{
+          "&.gatsby-highlight": {
+            mx: -1,
+            mb: 2,
+          },
+          "&.gatsby-highlight > pre": {
+            py: 2,
+            borderRadius: "8px",
+            fontSize: "0.75rem",
+          },
+        }}
+      />
     ),
   },
 }).Compiler;
