@@ -18,6 +18,9 @@ jobs:
           node-version: "16.x"
           registry-url: "https://npm.pkg.github.com"
       - run: npm ci
-      - run: npm run deploy
+      - run: |
+          git config --global user.name 'Github actions'
+          git config --global user.email 'no-reply@github.com'
+          npm run deploy
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
