@@ -1,9 +1,6 @@
 ---
-category: ideas
-slug: quality-rules
 title: "Quality Rules"
 date: 2022-07-21 11:23:21 +0100
-image: ../images/post-image.png
 description: It is very import for a Python developer to know which data structure to use and when. In this section we are going to give a quick introduction to the most popular data structures in Python and hashable vs unhashable objects as well as the numpy and pandas libraries.
 ---
 
@@ -156,7 +153,7 @@ etc...
 
 Asynchronicity in Python is a bit different than in other programming languages. It can be achieved through different ways, all of which presented in [this article][async-py] and some of them described below.
 
-![Python Programming Models](../images/async-py.png "Python Programming Models")
+![Python Programming Models](./async-py.png "Python Programming Models")
 
 [python-2]: https://www.python.org/downloads/release/python-2718/
 [python-3]: https://www.python.org/downloads/release/python-3100/

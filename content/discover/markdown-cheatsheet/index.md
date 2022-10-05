@@ -1,9 +1,6 @@
 ---
-category: ideas
-slug: markdown-cheatsheet
-title: "Markdown cheatsheet"
+title: Markdown cheatsheet
 date: 2022-07-14 11:23:21 +0100
-image: ../images/post-image.png
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
 ---
 

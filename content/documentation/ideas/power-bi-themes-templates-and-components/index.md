@@ -1,9 +1,6 @@
 ---
-category: ideas
-slug: laying-out-your-power-bi-report-2
-title: "Laying out your Power BI Report"
+title: Laying out your Power BI report
 date: 2022-07-14 11:23:21 +0100
-image: ../images/post-image-two.png
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
 ---
 

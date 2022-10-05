@@ -20,15 +20,14 @@ import { Link } from "gatsby";
 const drawerWidth = 310;
 
 interface LayoutProps extends PropsWithChildren {
-  pages?: ({
-    readonly category: string | null;
+  pages?: {
     readonly slug: string | null;
     readonly title: string | null;
-  } | null)[];
+  }[];
 }
 
 const Layout: FC<LayoutProps> = ({ pages, children }) => {
-  const groups = pages && groupBy(pages, (page) => page!.category!);
+  const groups = pages && groupBy(pages, (page) => page.slug!.split("/")[2]);
 
   return (
     <StrictMode>
@@ -54,11 +53,8 @@ const Layout: FC<LayoutProps> = ({ pages, children }) => {
                       <ListItemText primary={category.toUpperCase()} />
                     </ListItem>
                     {pages.map((page) => (
-                      <ListItem
-                        disableGutters
-                        key={`/${page!.category!}/${page!.slug!}`}
-                      >
-                        <Link to={`/${page!.category!}/${page!.slug!}`}>
+                      <ListItem disableGutters key={page!.slug!}>
+                        <Link to={page!.slug!}>
                           <ListItemButton>
                             <ListItemText primary={page!.title!} />
                           </ListItemButton>

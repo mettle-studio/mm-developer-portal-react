@@ -7,7 +7,10 @@ import Layout from "../components/Layout";
 
 const IndexPage: FC<PageProps<Queries.IndexPageQuery>> = ({ data }) => {
   const { allMarkdownRemark } = data;
-  const pages = allMarkdownRemark.edges.map((edge) => edge.node!.frontmatter!);
+  const pages = allMarkdownRemark.edges.map((edge) => ({
+    title: edge.node!.frontmatter!.title,
+    slug: edge.node!.fields!.slug,
+  }));
   return (
     <Layout pages={pages}>
       <Container maxWidth="xl">
@@ -28,9 +31,10 @@ export const pageQuery = graphql`
     allMarkdownRemark {
       edges {
         node {
-          frontmatter {
-            category
+          fields {
             slug
+          }
+          frontmatter {
             title
           }
         }

@@ -54,10 +54,10 @@ const config: GatsbyConfig = {
       __key: "images",
     },
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: `gatsby-source-filesystem`,
       options: {
-        name: "markdown-pages",
-        path: "./src/markdown-pages/",
+        path: `${__dirname}/content`,
+        name: `content`,
       },
     },
   ],
