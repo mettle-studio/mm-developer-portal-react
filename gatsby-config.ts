@@ -11,10 +11,37 @@ const config: GatsbyConfig = {
   graphqlTypegen: true,
   plugins: [
     "gatsby-plugin-image",
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /src\/images/, // See below to configure properly
+        },
+      },
+    },
     "gatsby-plugin-sitemap",
-    "gatsby-transformer-remark",
-    "gatsby-plugin-sharp",
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        stripMetadata: true,
+        defaultQuality: 50,
+      },
+    },
     "gatsby-transformer-sharp",
+    {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        plugins: [
+          "gatsby-remark-component",
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 800,
+            },
+          },
+        ],
+      },
+    },
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -31,6 +58,7 @@ const config: GatsbyConfig = {
       },
     },
   ],
+  pathPrefix: "/mm-developer-portal-react",
 };
 
 export default config;
