@@ -1,4 +1,4 @@
-name: Publish package to GitHub Packages
+name: deploy to gh-pages branch
 on:
   push:
     tags:
