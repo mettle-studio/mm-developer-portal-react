@@ -34,12 +34,16 @@ const Layout: FC<LayoutProps> = ({ pages, children }) => {
       <ThemeProvider theme={themes.light}>
         <CssBaseline />
         <Header />
-        <Container maxWidth="xl" sx={{ display: "flex" }}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            display: "grid",
+            gridTemplateColumns: `${drawerWidth}px minmax(0, 1fr)`,
+          }}
+        >
           {groups && (
             <Box
               sx={{
-                width: drawerWidth,
-                flexShrink: 0,
                 "& .MuiDrawer-paper": {
                   width: drawerWidth,
                   boxSizing: "border-box",
@@ -66,7 +70,7 @@ const Layout: FC<LayoutProps> = ({ pages, children }) => {
               </List>
             </Box>
           )}
-          <Box sx={{ flex: 1, p: 2 }}>{children}</Box>
+          <Box sx={{ p: 2 }}>{children}</Box>
         </Container>
       </ThemeProvider>
     </StrictMode>

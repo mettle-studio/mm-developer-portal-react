@@ -88,6 +88,7 @@ const renderAst = new rehypeReact({
             py: 2,
             borderRadius: "8px",
             fontSize: "0.75rem",
+            overflowX: "auto",
           },
         }}
       />
