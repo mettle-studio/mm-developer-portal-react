@@ -14,7 +14,6 @@ import { themes } from "@mott-macdonald/smi-react-ui-kit";
 
 import Header from "./Header";
 
-import "@mott-macdonald/smi-react-ui-kit/fonts.css";
 import { groupBy } from "lodash";
 import { Link } from "gatsby";
 

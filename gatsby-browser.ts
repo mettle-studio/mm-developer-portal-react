@@ -1,0 +1,4 @@
+import "@mott-macdonald/smi-react-ui-kit/fonts.css";
+
+// Highlighting for code blocks
+import "prism-themes/themes/prism-vsc-dark-plus.css";
