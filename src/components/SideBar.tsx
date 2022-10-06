@@ -79,7 +79,7 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
 
   return (
     <TreeView
-      sx={sx}
+      sx={{ ...(sx ?? {}), my: -1 }}
       multiSelect={false}
       expanded={expandedNodeIds}
       selected={getPathComponents(pathname).slice(levelsToSkip).join('/')}

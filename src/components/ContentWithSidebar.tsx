@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren } from 'react'
-import { Container, Box, Hidden, Stack, Typography } from '@mui/material'
+import { Container, Box, Hidden, Stack, Divider } from '@mui/material'
 
 import SideBar, { SideBarProps } from './SideBar'
 
@@ -35,9 +35,9 @@ const ContentWithSidebar: FC<SideBarProps & PropsWithChildren> = ({ children, ..
       </Hidden>
       <Hidden smUp>
         <Container sx={{ py: 4 }}>
-          <Typography variant="h5">Contents</Typography>
           <Stack spacing={2}>
             <SideBar {...sideBarProps} />
+            <Divider />
             <Box>{children}</Box>
           </Stack>
         </Container>
