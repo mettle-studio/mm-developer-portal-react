@@ -33,6 +33,7 @@ const SideBarTreeItem = (props: StyledTreeItemProps) => {
           color: 'inherit',
           '&:hover': {
             backgroundColor: 'transparent',
+            color: 'primary.main',
           },
           '&.Mui-focused, &.Mui-selected, &.Mui-selected.Mui-focused': {
             fontWeight: theme.typography.fontWeightMedium,
