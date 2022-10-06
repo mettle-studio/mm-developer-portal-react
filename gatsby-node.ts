@@ -1,38 +1,30 @@
-import {
-  CreateNodeArgs,
-  CreatePagesArgs,
-  CreateSchemaCustomizationArgs,
-} from "gatsby";
+/* eslint-disable import/no-import-module-exports */
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { CreateNodeArgs, CreatePagesArgs, CreateSchemaCustomizationArgs } from 'gatsby'
 
-const path = require(`path`);
-const { createFilePath } = require(`gatsby-source-filesystem`);
+const path = require(`path`)
+const { createFilePath } = require(`gatsby-source-filesystem`)
 
-exports.createPages = async ({
-  graphql,
-  actions,
-  reporter,
-}: CreatePagesArgs) => {
-  const { createPage } = actions;
+exports.createPages = async ({ graphql, actions, reporter }: CreatePagesArgs) => {
+  const { createPage } = actions
 
   // Define a template
-  const markdownPage = path.resolve(`./src/templates/MarkdownPageTemplate.tsx`);
+  const markdownPage = path.resolve(`./src/templates/MarkdownPageTemplate.tsx`)
 
   // Get all markdown articles sorted by priority
   const result = await graphql<{
     readonly allMarkdownRemark: {
       readonly nodes: ReadonlyArray<{
-        readonly id: string;
+        readonly id: string
         readonly fields: {
-          readonly slug: string;
-        };
-      }>;
-    };
+          readonly slug: string
+        }
+      }>
+    }
   }>(
     `
       {
-        allMarkdownRemark(
-          sort: { fields: [frontmatter___priority], order: DESC }
-        ) {
+        allMarkdownRemark(sort: { fields: [frontmatter___priority], order: DESC }) {
           nodes {
             id
             fields {
@@ -41,18 +33,15 @@ exports.createPages = async ({
           }
         }
       }
-    `
-  );
+    `,
+  )
 
   if (result.errors) {
-    reporter.panicOnBuild(
-      `There was an error loading your blog posts`,
-      result.errors
-    );
-    return;
+    reporter.panicOnBuild(`There was an error loading your blog posts`, result.errors)
+    return
   }
 
-  const articles = result.data?.allMarkdownRemark.nodes;
+  const articles = result.data?.allMarkdownRemark.nodes
 
   // Create article pages
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
@@ -66,34 +55,32 @@ exports.createPages = async ({
         context: {
           id: article.id,
         },
-      });
-    });
+      })
+    })
   }
-};
+}
 
 exports.onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
-  const { createNodeField } = actions;
+  const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({ node, getNode });
+    const slug = createFilePath({ node, getNode })
     createNodeField({
       name: `slug`,
       node,
       value: slug,
-    });
-    const category = slug.split("/")[1];
+    })
+    const category = slug.split('/')[1]
     createNodeField({
       name: `category`,
       node,
       value: category,
-    });
+    })
   }
-};
+}
 
-exports.createSchemaCustomization = ({
-  actions,
-}: CreateSchemaCustomizationArgs) => {
-  const { createTypes } = actions;
+exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs) => {
+  const { createTypes } = actions
 
   // Explicitly define the siteMetadata {} object
   // This way those will always be defined even if removed from gatsby-config.js
@@ -117,5 +104,5 @@ exports.createSchemaCustomization = ({
       slug: String
       category: String
     }
-  `);
-};
+  `)
+}

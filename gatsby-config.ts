@@ -1,4 +1,4 @@
-import type { GatsbyConfig } from "gatsby";
+import type { GatsbyConfig } from 'gatsby'
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -10,16 +10,16 @@ const config: GatsbyConfig = {
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
-    "gatsby-plugin-image",
+    'gatsby-plugin-image',
     {
-      resolve: "gatsby-plugin-react-svg",
+      resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
           include: /src\/images/, // See below to configure properly
         },
       },
     },
-    "gatsby-plugin-sitemap",
+    'gatsby-plugin-sitemap',
     {
       resolve: `gatsby-plugin-sharp`,
       options: {
@@ -27,12 +27,12 @@ const config: GatsbyConfig = {
         defaultQuality: 50,
       },
     },
-    "gatsby-transformer-sharp",
+    'gatsby-transformer-sharp',
     {
-      resolve: "gatsby-transformer-remark",
+      resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
-          "gatsby-remark-component",
+          'gatsby-remark-component',
           {
             resolve: `gatsby-remark-images`,
             options: {
@@ -51,12 +51,12 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: "images",
-        path: "./src/images/",
+        name: 'images',
+        path: './src/images/',
       },
-      __key: "images",
+      __key: 'images',
     },
     {
       resolve: `gatsby-source-filesystem`,
@@ -66,7 +66,7 @@ const config: GatsbyConfig = {
       },
     },
   ],
-  pathPrefix: "/mm-developer-portal-react",
-};
+  pathPrefix: '/mm-developer-portal-react',
+}
 
-export default config;
+export default config
