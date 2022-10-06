@@ -52,17 +52,23 @@ const SideBar: FC<SideBarProps> = ({ pathname, pages, levelsToSkip = 0, children
   }, [pages, levelsToSkip])
 
   const renderNode = (keys: string[], node: BranchNode | LeafNode) => {
+    const root = keys.length === 1
     const nodeId = keys.join('/')
     if (isLeafNode(node)) {
       return (
         <Link style={{ textDecoration: 'none', color: 'unset' }} to={node.page.slug}>
-          <SideBarTreeItem nodeId={nodeId} label={node.page.title} />
+          <SideBarTreeItem root={root} nodeId={nodeId} label={node.page.title} />
         </Link>
       )
     }
     const key = last(keys) ?? ''
     return (
-      <SideBarTreeItem bold nodeId={nodeId} label={key[0].toUpperCase() + key.substring(1)}>
+      <SideBarTreeItem
+        root={root}
+        expanded={expandedNodeIds.includes(nodeId)}
+        nodeId={nodeId}
+        label={key[0].toUpperCase() + key.substring(1)}
+      >
         {Object.entries(node).map(([childKey, childNode]) => renderNode([...keys, childKey], childNode))}
       </SideBarTreeItem>
     )
@@ -89,7 +95,17 @@ const SideBar: FC<SideBarProps> = ({ pathname, pages, levelsToSkip = 0, children
         <TreeView
           expanded={expandedNodeIds}
           selected={[getPathComponents(pathname).slice(levelsToSkip).join('/')]}
-          onNodeToggle={(_, nodeIds) => setExpandedNodeIds(nodeIds)}
+          onNodeToggle={(_, newNodeIds) => {
+            setExpandedNodeIds((oldNodeIds) => {
+              const newNodeId = newNodeIds.find((nodeId) => !oldNodeIds.includes(nodeId))
+              if (newNodeId === undefined) {
+                // is unexpanding
+                return newNodeIds
+              }
+              // return nodes that are the newly expanded node or are an ancestor of it
+              return newNodeIds.filter((oldNodeId) => newNodeId.startsWith(oldNodeId))
+            })
+          }}
         >
           {Object.entries(pageTree).map(([key, childNode]) => renderNode([key], childNode))}
         </TreeView>

@@ -11,32 +11,35 @@ declare module 'react' {
 }
 
 type StyledTreeItemProps = TreeItemProps & {
-  bold?: boolean
+  root: boolean
+  expanded?: boolean
 }
 
 const SideBarTreeItem = (props: StyledTreeItemProps) => {
-  const { bold, label, ...other } = props
+  const { root, expanded, label, children, ...other } = props
   const theme = useTheme()
 
   return (
     <TreeItem
       label={
-        <Typography variant="body2" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+        <Typography variant={root ? 'subtitle1' : 'body1'} sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
           {label}
         </Typography>
       }
       sx={{
-        my: 0.5,
         [`& .${treeItemClasses.content}`]: {
           paddingLeft: 0,
           backgroundColor: 'transparent',
-          color: 'text.secondary',
+          color: 'inherit',
           '&:hover': {
             backgroundColor: 'transparent',
           },
           '&.Mui-focused, &.Mui-selected, &.Mui-selected.Mui-focused': {
             fontWeight: theme.typography.fontWeightMedium,
             backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
           },
           [`& .${treeItemClasses.label}`]: {
             fontWeight: 'inherit',
@@ -51,10 +54,16 @@ const SideBarTreeItem = (props: StyledTreeItemProps) => {
         },
       }}
       style={{
-        fontWeight: bold ? theme.typography.fontWeightMedium : theme.typography.fontWeightRegular,
+        fontWeight:
+          expanded || (root && children) ? theme.typography.fontWeightMedium : theme.typography.fontWeightRegular,
+        color: root && !expanded && children ? theme.palette.text.secondary : theme.palette.text.primary,
+        marginTop: root ? theme.spacing(2) : theme.spacing(1),
+        marginBottom: root ? theme.spacing(2) : theme.spacing(1),
       }}
       {...other}
-    />
+    >
+      {children}
+    </TreeItem>
   )
 }
 
