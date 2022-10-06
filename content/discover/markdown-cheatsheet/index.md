@@ -73,14 +73,8 @@ Ordered
 1. Lorem ipsum dolor sit amet
 2. Consectetur adipiscing elit
 3. Integer molestie lorem at massa
-
 4. You can use sequential numbers...
 5. ...or keep all the numbers as `1.`
-
-Start numbering with offset:
-
-57. foo
-1. bar
 
 ## Code
 
@@ -103,10 +97,10 @@ Syntax highlighting
 
 ```js
 var foo = function (bar) {
-  return bar++;
-};
+  return bar++
+}
 
-console.log(foo(5));
+console.log(foo(5))
 ```
 
 ## Tables (don't work yet)
@@ -129,11 +123,11 @@ Right aligned columns
 
 [link text](http://dev.nodeca.com)
 
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+[link with title](http://nodeca.github.io/pica/demo/ 'title text!')
 
 ## Images
 
 ![Minion](https://octodex.github.com/images/minion.png)
-![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg 'The Stormtroopocat')
 
 Like links, Images also have a footnote style syntax

@@ -22,7 +22,9 @@ const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = (
 
   return (
     <Layout pages={pages}>
-      <Typography variant="h3">{frontmatter?.title}</Typography>
+      <Typography variant="h3" sx={{ mb: 4 }}>
+        {frontmatter?.title}
+      </Typography>
       {renderAst(htmlAst)}
       <Typography variant="caption">{frontmatter?.date}</Typography>
     </Layout>

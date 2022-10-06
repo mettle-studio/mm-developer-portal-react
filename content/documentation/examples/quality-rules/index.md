@@ -1,16 +1,16 @@
 ---
-title: "Quality Rules"
+title: 'Quality Rules'
 date: 2022-07-21 11:23:21 +0100
 description: It is very import for a Python developer to know which data structure to use and when. In this section we are going to give a quick introduction to the most popular data structures in Python and hashable vs unhashable objects as well as the numpy and pandas libraries.
 ---
 
-## Data Structure Guidelines
+# Data Structure Guidelines
 
 It is very import for a Python developer to know which data structure to use and when. In this section we are going to give a quick introduction to the most popular data structures in Python and hashable vs unhashable objects as well as the numpy and pandas libraries.
 
 Do note that because Python is not a strong typed language, data structures can contain multiple different types of objects in them.
 
-### Mutable vs Immutable and Hashable vs Unhashable
+## Mutable vs Immutable and Hashable vs Unhashable
 
 In Python, data structures and objects can either be mutable or immutable and they can be hashable or unhashable.
 
@@ -18,7 +18,7 @@ This is very important since mutable and immutable refer to the ability to modif
 
 Hashing is the generation of an integer identifier for an object which will never change during the objects lifetime. Typically, immutable objects are hashable while mutable objects are not.
 
-### List
+## List
 
 A list in Python is a mutable unhashable ordered collection of objects.
 
@@ -46,7 +46,7 @@ list_sample_1 = [4,5,3,2,5,1,3]
 print(sorted(list_sample_1)) # [1, 2, 3, 3, 4, 5, 5]
 ```
 
-### Tuple
+## Tuple
 
 A tuple in Python is an immutable hashable ordered collection of objects. Although, mutable objects within a tuple can be modified.
 
@@ -70,7 +70,7 @@ tuple_sample_3[0] = 1 # TypeError: 'tuple' object does not support item assignme
 
 You would use a tuple only if working with a collection you don't want to alter whether in terms of size or content, it doesn't have an `append` function like `List` does, and does not support changing values inside of it.
 
-### Set
+## Set
 
 A set in Python is a mutable unhashable non-ordered collection of unique objects that don't have an index.
 
@@ -102,7 +102,7 @@ unique_set = set(list_sample_1) # {1, 2, 3, 4, 5, 6} - you can then turn this ba
 
 As you can see in the prior examples, you would use a set when you want to have a collection of unique objects. It is pseudo-mutable because you can remove / add objects to it but you cannot change the values of the objects that are in it.
 
-### Dictionary
+## Dictionary
 
 A dictionary in Python is a mutable unhashable ordered (if Python version is 3.7 or higher) collection of hashable unique keys and their unique values.
 
@@ -128,7 +128,7 @@ dict_sample_1 = {1: {1: {'username':'test', 'pwd': 'secret', 'active': True}}}
 
 It is very similar to [JSON syntax][json] and can contain customized objects, tuples etc. which is not supported by JSON.
 
-## Asynchronous Programming
+# Asynchronous Programming
 
 Code tends to be written to run synchronously:
 
@@ -153,7 +153,7 @@ etc...
 
 Asynchronicity in Python is a bit different than in other programming languages. It can be achieved through different ways, all of which presented in [this article][async-py] and some of them described below.
 
-![Python Programming Models](./async-py.png "Python Programming Models")
+![Python Programming Models](./async-py.png 'Python Programming Models')
 
 [python-2]: https://www.python.org/downloads/release/python-2718/
 [python-3]: https://www.python.org/downloads/release/python-3100/
