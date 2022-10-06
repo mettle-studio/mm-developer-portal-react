@@ -9,7 +9,7 @@ const ContentWithSidebar: FC<SideBarProps & PropsWithChildren> = ({ children, ..
   return (
     <>
       <Hidden xlDown>
-        <SideBar sx={{ width: drawerWidth, position: 'absolute', pt: 4, ml: 2, left: 0 }} {...sideBarProps} />
+        <SideBar sx={{ width: drawerWidth, position: 'absolute', pt: 4, ml: 3, left: 0 }} {...sideBarProps} />
       </Hidden>
       <Hidden smDown>
         <Container
