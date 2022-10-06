@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
-import { Box, AppBar, Toolbar, ThemeProvider } from '@mui/material'
+import { Box, AppBar, Toolbar } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
 import { themes } from '@mott-macdonald/smi-react-ui-kit'
 
 import { Link } from 'gatsby'

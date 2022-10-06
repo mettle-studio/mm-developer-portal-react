@@ -1,5 +1,6 @@
 import React, { FC, PropsWithChildren, StrictMode } from 'react'
-import { ThemeProvider, CssBaseline, Container, List, ListItem, ListItemButton, ListItemText, Box } from '@mui/material'
+import { CssBaseline, Container, List, ListItem, ListItemButton, ListItemText, Box } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
 import { themes } from '@mott-macdonald/smi-react-ui-kit'
 import { groupBy } from 'rambdax'
 
