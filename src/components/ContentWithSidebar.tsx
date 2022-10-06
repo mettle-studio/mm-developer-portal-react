@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren } from 'react'
-import { Container, Box, Hidden } from '@mui/material'
+import { Container, Box, Hidden, Stack, Typography } from '@mui/material'
 
 import SideBar, { SideBarProps } from './SideBar'
 
@@ -11,23 +11,37 @@ const ContentWithSidebar: FC<SideBarProps & PropsWithChildren> = ({ children, ..
       <Hidden xlDown>
         <SideBar sx={{ width: drawerWidth, position: 'absolute', pt: 4, ml: 2, left: 0 }} {...sideBarProps} />
       </Hidden>
-      <Container
-        maxWidth="xl"
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: `${drawerWidth}px minmax(0, 1fr) ${drawerWidth}px`,
-          pt: 4,
-          columnGap: 4,
-        }}
-      >
-        <Hidden xlUp>
-          <SideBar {...sideBarProps} />
-        </Hidden>
-        <Hidden xlDown>
-          <Box />
-        </Hidden>
-        <Box>{children}</Box>
-      </Container>
+      <Hidden smDown>
+        <Container
+          maxWidth="xl"
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: `${drawerWidth}px minmax(0, 1fr)`,
+              md: `${drawerWidth}px minmax(0, 1fr) ${drawerWidth}px`,
+            },
+            py: 4,
+            columnGap: 4,
+          }}
+        >
+          <Hidden xlUp>
+            <SideBar {...sideBarProps} />
+          </Hidden>
+          <Hidden xlDown>
+            <Box />
+          </Hidden>
+          <Box>{children}</Box>
+        </Container>
+      </Hidden>
+      <Hidden smUp>
+        <Container sx={{ py: 4 }}>
+          <Typography variant="h5">Contents</Typography>
+          <Stack spacing={2}>
+            <SideBar {...sideBarProps} />
+            <Box>{children}</Box>
+          </Stack>
+        </Container>
+      </Hidden>
     </>
   )
 }
