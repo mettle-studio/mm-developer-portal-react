@@ -1,10 +1,12 @@
 import React, { FC, PropsWithChildren, StrictMode } from 'react'
 import { CssBaseline, Container, List, ListItem, ListItemButton, ListItemText, Box } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
+import TreeView from '@mui/lab/TreeView'
+import TreeItem from '@mui/lab/TreeItem'
 import { themes } from '@mott-macdonald/smi-react-ui-kit'
 import { groupBy } from 'rambdax'
 
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import Header from './Header'
 
 const drawerWidth = 310
@@ -40,24 +42,21 @@ const Layout: FC<LayoutProps> = ({ pages, children }) => {
                 },
               }}
             >
-              <List>
-                {Object.entries(groups).flatMap(([category, categoryPages]) => (
-                  <>
-                    <ListItem disableGutters key={category}>
-                      <ListItemText primary={category.toUpperCase()} />
-                    </ListItem>
-                    {categoryPages.map((page) => (
-                      <ListItem disableGutters key={page.slug}>
-                        <Link to={page.slug}>
-                          <ListItemButton>
-                            <ListItemText primary={page.title} />
-                          </ListItemButton>
-                        </Link>
-                      </ListItem>
+              <TreeView defaultExpanded={['3']} sx={{ paddingTop: 10 }}>
+                {Object.entries(groups).flatMap(([category, pages]) => (
+                  <TreeItem nodeId={category} label={category[0].toUpperCase() + category.substring(1)}>
+                    {pages.map((page, index) => (
+                      <TreeItem
+                        onClick={() => {
+                          navigate(`${page!.slug!}`)
+                        }}
+                        nodeId={index.toString()}
+                        label={page?.title}
+                      />
                     ))}
-                  </>
+                  </TreeItem>
                 ))}
-              </List>
+              </TreeView>
             </Box>
           )}
           <Box sx={{ p: 2 }}>{children}</Box>

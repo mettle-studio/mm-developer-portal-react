@@ -33,6 +33,31 @@
 
     Edit `src/pages/index.tsx` to see your site update in real-time!
 
+    ## Adding a new .md file
+
+    1. Navigate to current-MM-project/docs/\_posts/ in Github
+    2. Upload or create a new .md file using 'Add file' button
+    3. Name the new post in the format YYYY-MM-DD-NAME-OF-POST.md
+    4. Add the following YAML frontmatter to the top of the file (you can choose from the categories 'Ideas' 'Ui-UX' 'Design' 'Example' and 'Case Studies')
+
+    ```layout: post
+    title:  "Example Title"
+    date:   2022-07-14 11:23:21 +0100
+    categories: [Ideas]
+    image: post-image.png
+    description: Lorem ipsum dolor sit amet
+    ```
+
+    5. Below the frontmatter, add content for your post.
+    6. At the bottom of the page, type a short, meaningful commit message that describes the change you made to the file.
+    7. Click Commit New File
+
+    ## Upload images to reference in a new .md file
+
+    1. Navigate to current-MM-project/docs/assets/images/
+    2. Upload image using 'Add file' button
+    3. In the new .md post reference the image in the format `![Image Description]({{site.baseurl}}/assets/images/async-py.png "Image Description")`
+
 4.  **Learn more**
 
     - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
