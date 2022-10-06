@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { graphql, PageProps } from 'gatsby'
+import { graphql, HeadFC, PageProps } from 'gatsby'
 import { Typography } from '@mui/material'
 
 import renderAst from '../utils/renderAst'
@@ -33,6 +33,14 @@ const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = (
 
 export default MarkdownPageTemplate
 
+// TODO: add more for SEO
+export const Head: HeadFC<Queries.MarkdownPageTemplateQuery> = ({ data: { article } }) => (
+  <>
+    <title>{article?.frontmatter?.title}</title>
+    <meta name="description" content={article?.frontmatter?.description ?? undefined} />
+  </>
+)
+
 export const pageQuery = graphql`
   query MarkdownPageTemplate($id: String!) {
     allMarkdownRemark {
@@ -57,6 +65,7 @@ export const pageQuery = graphql`
       frontmatter {
         date(formatString: "MMMM DD, YYYY")
         title
+        description
       }
     }
   }

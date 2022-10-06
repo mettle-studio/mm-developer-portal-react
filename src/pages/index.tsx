@@ -26,6 +26,7 @@ const IndexPage: FC<PageProps<Queries.IndexPageQuery>> = ({ location: { pathname
 
 export default IndexPage
 
+// TODO: add more for SEO
 export const Head: HeadFC = () => <title>Home Page</title>
 
 export const pageQuery = graphql`
