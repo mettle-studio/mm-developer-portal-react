@@ -2,10 +2,10 @@ import React, { FC } from 'react'
 import { graphql, PageProps } from 'gatsby'
 import { Typography } from '@mui/material'
 
-import Layout from '../components/Layout'
 import renderAst from '../utils/renderAst'
+import SideBar from '../components/SideBar'
 
-const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = ({ data }) => {
+const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = ({ location: { pathname }, data }) => {
   const { allMarkdownRemark, article } = data
   if (article === null) {
     return null
@@ -21,13 +21,13 @@ const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = (
     }))
 
   return (
-    <Layout pages={pages}>
+    <SideBar pathname={pathname} pages={pages} levelsToSkip={1}>
       <Typography variant="h3" sx={{ mb: 4 }}>
         {frontmatter?.title}
       </Typography>
       {renderAst(htmlAst)}
       <Typography variant="caption">{frontmatter?.date}</Typography>
-    </Layout>
+    </SideBar>
   )
 }
 

@@ -12,7 +12,7 @@ export const HEADER_HEIGHT = 50
 
 const Header: FC = () => {
   return (
-    <ThemeProvider theme={themes.dark}>
+    <ThemeProvider theme={themes.light}>
       <AppBar
         position="static"
         sx={{
@@ -28,7 +28,7 @@ const Header: FC = () => {
                 alignItems: 'center',
               }}
             >
-              <Moata height={17} width={(15 / 72) * 350} style={{ filter: 'invert(100%)' }} alt="moata" />
+              <Moata height={17} width={(15 / 72) * 350} alt="moata" />
             </Box>
           </Link>
         </Toolbar>

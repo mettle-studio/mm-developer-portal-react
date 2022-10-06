@@ -65,6 +65,7 @@ const config: GatsbyConfig = {
         name: `content`,
       },
     },
+    'gatsby-plugin-material-ui',
   ],
   pathPrefix: '/mm-developer-portal-react',
 }

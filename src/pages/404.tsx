@@ -2,7 +2,7 @@ import * as React from 'react'
 import { HeadFC } from 'gatsby'
 import { Container, Typography } from '@mui/material'
 
-import Layout from '../components/Layout'
+import Layout from '../components/Providers'
 
 const NotFoundPage = () => {
   return (
