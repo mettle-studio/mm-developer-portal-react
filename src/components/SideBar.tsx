@@ -1,7 +1,7 @@
 import React, { FC, PropsWithChildren, useContext, useMemo } from 'react'
 import { Container, Box } from '@mui/material'
 import { TreeView } from '@mui/lab'
-import { groupBy, last } from 'rambdax'
+import { groupBy, is, last } from 'rambdax'
 import { Link } from 'gatsby'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
@@ -93,8 +93,9 @@ const SideBar: FC<SideBarProps> = ({ pathname, pages, levelsToSkip = 0, children
         }}
       >
         <TreeView
+          multiSelect={false}
           expanded={expandedNodeIds}
-          selected={[getPathComponents(pathname).slice(levelsToSkip).join('/')]}
+          selected={getPathComponents(pathname).slice(levelsToSkip).join('/')}
           onNodeToggle={(_, newNodeIds) => {
             setExpandedNodeIds((oldNodeIds) => {
               const newNodeId = newNodeIds.find((nodeId) => !oldNodeIds.includes(nodeId))
@@ -104,6 +105,13 @@ const SideBar: FC<SideBarProps> = ({ pathname, pages, levelsToSkip = 0, children
               }
               // return nodes that are the newly expanded node or are an ancestor of it
               return newNodeIds.filter((oldNodeId) => newNodeId.startsWith(oldNodeId))
+            })
+          }}
+          onNodeSelect={(_: React.SyntheticEvent, selectedNodeIds: string | string[]) => {
+            setExpandedNodeIds((oldNodeIds) => {
+              const selectedNodeId = is(Array, selectedNodeIds) ? selectedNodeIds[0] : selectedNodeIds
+              // return nodes that are the newly expanded node or are an ancestor of it
+              return oldNodeIds.filter((oldNodeId) => selectedNodeId.startsWith(oldNodeId))
             })
           }}
         >
