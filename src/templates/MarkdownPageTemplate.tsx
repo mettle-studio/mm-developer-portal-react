@@ -1,26 +1,24 @@
-import React, { FC } from "react";
-import { graphql, PageProps } from "gatsby";
-import { Typography } from "@mui/material";
+import React, { FC } from 'react'
+import { graphql, PageProps } from 'gatsby'
+import { Typography } from '@mui/material'
 
-import Layout from "../components/Layout";
-import renderAst from "../utils/renderAst";
+import Layout from '../components/Layout'
+import renderAst from '../utils/renderAst'
 
-const MarkdownPageTemplate: FC<
-  PageProps<Queries.MarkdownPageTemplateQuery>
-> = ({ data }) => {
-  const { allMarkdownRemark, article } = data;
+const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = ({ data }) => {
+  const { allMarkdownRemark, article } = data
   if (article === null) {
-    return null;
+    return null
   }
-  const { frontmatter, htmlAst, fields } = article;
+  const { frontmatter, htmlAst, fields } = article
 
   const pages = allMarkdownRemark.edges
-    .map((edge) => edge.node!)
+    .map((edge) => edge.node)
     .filter((node) => node.fields?.category === fields?.category)
     .map((node) => ({
-      title: node.frontmatter!.title,
-      slug: node.fields!.slug,
-    }));
+      title: node.frontmatter?.title ?? '',
+      slug: node.fields?.slug ?? '',
+    }))
 
   return (
     <Layout pages={pages}>
@@ -28,10 +26,10 @@ const MarkdownPageTemplate: FC<
       {renderAst(htmlAst)}
       <Typography variant="caption">{frontmatter?.date}</Typography>
     </Layout>
-  );
-};
+  )
+}
 
-export default MarkdownPageTemplate;
+export default MarkdownPageTemplate
 
 export const pageQuery = graphql`
   query MarkdownPageTemplate($id: String!) {
@@ -60,4 +58,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`

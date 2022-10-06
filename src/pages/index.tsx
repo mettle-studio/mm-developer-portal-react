@@ -1,16 +1,18 @@
-import React, { FC } from "react";
-import type { HeadFC } from "gatsby";
-import { graphql, PageProps } from "gatsby";
-import { Container, Typography } from "@mui/material";
+import React, { FC } from 'react'
+import type { HeadFC } from 'gatsby'
+import { graphql, PageProps } from 'gatsby'
+import { Container, Typography } from '@mui/material'
 
-import Layout from "../components/Layout";
+import Layout from '../components/Layout'
 
 const IndexPage: FC<PageProps<Queries.IndexPageQuery>> = ({ data }) => {
-  const { allMarkdownRemark } = data;
-  const pages = allMarkdownRemark.edges.map((edge) => ({
-    title: edge.node!.frontmatter!.title,
-    slug: edge.node!.fields!.slug,
-  }));
+  const { allMarkdownRemark } = data
+  const pages = allMarkdownRemark.edges
+    .map((edge) => edge.node)
+    .map((node) => ({
+      title: node.frontmatter?.title ?? '',
+      slug: node.fields?.slug ?? '',
+    }))
   return (
     <Layout pages={pages}>
       <Container maxWidth="xl">
@@ -19,12 +21,12 @@ const IndexPage: FC<PageProps<Queries.IndexPageQuery>> = ({ data }) => {
         </Typography>
       </Container>
     </Layout>
-  );
-};
+  )
+}
 
-export default IndexPage;
+export default IndexPage
 
-export const Head: HeadFC = () => <title>Home Page</title>;
+export const Head: HeadFC = () => <title>Home Page</title>
 
 export const pageQuery = graphql`
   query IndexPage {
@@ -41,4 +43,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`

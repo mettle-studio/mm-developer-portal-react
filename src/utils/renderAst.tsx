@@ -1,18 +1,11 @@
-import React, { PropsWithChildren } from "react";
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  Divider,
-  Paper,
-  Link,
-} from "@mui/material";
-import rehypeReact from "rehype-react";
+import React, { PropsWithChildren } from 'react'
+import { Box, Typography, List, ListItem, Divider, Paper, Link } from '@mui/material'
+import RehypeReact from 'rehype-react'
 
-// this needs fixing
+// seems like some incorrect typing in the imported library... :/
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const renderAst = new rehypeReact({
+const renderAst = new RehypeReact({
   createElement: React.createElement,
   components: {
     h1: ({ children }: PropsWithChildren) => (
@@ -50,22 +43,16 @@ const renderAst = new rehypeReact({
         {children}
       </Typography>
     ),
-    ul: ({ children }: PropsWithChildren) => (
-      <List sx={{ listStyleType: "disc", pl: 2 }}>{children}</List>
-    ),
-    ol: ({ children }: PropsWithChildren) => (
-      <List sx={{ listStyleType: "decimal", pl: 2 }}>{children}</List>
-    ),
-    li: ({ children }: PropsWithChildren) => (
-      <ListItem sx={{ display: "list-item" }}>{children}</ListItem>
-    ),
+    ul: ({ children }: PropsWithChildren) => <List sx={{ listStyleType: 'disc', pl: 2 }}>{children}</List>,
+    ol: ({ children }: PropsWithChildren) => <List sx={{ listStyleType: 'decimal', pl: 2 }}>{children}</List>,
+    li: ({ children }: PropsWithChildren) => <ListItem sx={{ display: 'list-item' }}>{children}</ListItem>,
     hr: () => <Divider sx={{ mb: 2 }} />,
     blockquote: ({ children }: PropsWithChildren) => (
       <Paper
         sx={{
           padding: 2,
-          backgroundColor: "unset",
-          borderColor: "backround.paper",
+          backgroundColor: 'unset',
+          borderColor: 'backround.paper',
           borderLeft: `2px solid`,
           mb: 2,
         }}
@@ -73,27 +60,25 @@ const renderAst = new rehypeReact({
         {children}
       </Paper>
     ),
-    a: ({ children, ...props }: PropsWithChildren) => (
-      <Link {...props}>{children}</Link>
-    ),
+    a: ({ children, ...props }: PropsWithChildren) => <Link {...props}>{children}</Link>,
     div: (props: { className?: string } & PropsWithChildren) => (
       <Box
         {...props}
         sx={{
-          "&.gatsby-highlight": {
+          '&.gatsby-highlight': {
             mx: -1,
             mb: 2,
           },
-          "&.gatsby-highlight > pre": {
+          '&.gatsby-highlight > pre': {
             py: 2,
-            borderRadius: "8px",
-            fontSize: "0.75rem",
-            overflowX: "auto",
+            borderRadius: '8px',
+            fontSize: '0.75rem',
+            overflowX: 'auto',
           },
         }}
       />
     ),
   },
-}).Compiler;
+}).Compiler
 
-export default renderAst;
+export default renderAst

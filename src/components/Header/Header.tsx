@@ -1,15 +1,14 @@
-import React, { FC } from "react";
-import { Box, AppBar, Toolbar, ThemeProvider, Stack } from "@mui/material";
-import { themes } from "@mott-macdonald/smi-react-ui-kit";
+import React, { FC } from 'react'
+import { Box, AppBar, Toolbar, ThemeProvider } from '@mui/material'
+import { themes } from '@mott-macdonald/smi-react-ui-kit'
 
-import Moata from "../../images/moata.svg";
-
-import { Link } from "gatsby";
+import { Link } from 'gatsby'
+import Moata from '../../images/moata.svg'
 
 // exported so it can be tested separately
-export const getBgColor = (isMd: boolean) => (isMd ? "primary.main" : "unset");
+export const getBgColor = (isMd: boolean) => (isMd ? 'primary.main' : 'unset')
 
-export const HEADER_HEIGHT = 50;
+export const HEADER_HEIGHT = 50
 
 const Header: FC = () => {
   return (
@@ -17,7 +16,7 @@ const Header: FC = () => {
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "background.default",
+          backgroundColor: 'background.default',
         }}
       >
         <Toolbar>
@@ -25,22 +24,17 @@ const Header: FC = () => {
             <Box
               sx={{
                 height: HEADER_HEIGHT,
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
-              <Moata
-                height={17}
-                width={(15 / 72) * 350}
-                style={{ filter: "invert(100%)" }}
-                alt="moata"
-              />
+              <Moata height={17} width={(15 / 72) * 350} style={{ filter: 'invert(100%)' }} alt="moata" />
             </Box>
           </Link>
         </Toolbar>
       </AppBar>
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
