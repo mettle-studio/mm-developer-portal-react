@@ -13,7 +13,7 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint --fix \"./**/*.{js,jsx,ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
