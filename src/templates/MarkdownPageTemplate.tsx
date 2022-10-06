@@ -3,7 +3,7 @@ import { graphql, PageProps } from 'gatsby'
 import { Typography } from '@mui/material'
 
 import renderAst from '../utils/renderAst'
-import SideBar from '../components/SideBar'
+import ContentWithSidebar from '../components/ContentWithSidebar'
 
 const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = ({ location: { pathname }, data }) => {
   const { allMarkdownRemark, article } = data
@@ -21,13 +21,13 @@ const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = (
     }))
 
   return (
-    <SideBar pathname={pathname} pages={pages} levelsToSkip={1}>
+    <ContentWithSidebar pathname={pathname} pages={pages} levelsToSkip={1}>
       <Typography variant="h3" sx={{ mb: 4 }}>
         {frontmatter?.title}
       </Typography>
       {renderAst(htmlAst)}
       <Typography variant="caption">{frontmatter?.date}</Typography>
-    </SideBar>
+    </ContentWithSidebar>
   )
 }
 
