@@ -77,12 +77,18 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
     [expandedNodeIds],
   )
 
+  const nodeIds = useMemo(
+    () => pages?.map((page) => getPathComponents(page.slug).slice(levelsToSkip).join('/')),
+    [pages, levelsToSkip],
+  )
+  const selected = useMemo(() => nodeIds?.find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)), [nodeIds, pathname])
+
   return (
     <TreeView
       sx={{ ...(sx ?? {}), my: -1 }}
       multiSelect={false}
       expanded={expandedNodeIds}
-      selected={getPathComponents(pathname).slice(levelsToSkip).join('/')}
+      selected={selected}
       onNodeToggle={(_, newNodeIds) => {
         setExpandedNodeIds((oldNodeIds) => {
           const newNodeId = newNodeIds.find((nodeId) => !oldNodeIds.includes(nodeId))
