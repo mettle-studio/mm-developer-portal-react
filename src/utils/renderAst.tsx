@@ -64,7 +64,7 @@ const renderAst = new RehypeReact({
           },
           '&.gatsby-highlight > pre': {
             py: 2,
-            borderRadius: '8px',
+            borderRadius: '4px',
             fontSize: '0.75rem',
             overflowX: 'auto',
           },
