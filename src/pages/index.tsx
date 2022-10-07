@@ -31,7 +31,7 @@ export const Head: HeadFC = () => <title>Home Page</title>
 
 export const pageQuery = graphql`
   query IndexPage {
-    allMarkdownRemark {
+    allMarkdownRemark(sort: { fields: [fields___sortPriority], order: DESC }) {
       edges {
         node {
           fields {

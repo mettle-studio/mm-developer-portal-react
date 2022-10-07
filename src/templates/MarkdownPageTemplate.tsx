@@ -43,7 +43,7 @@ export const Head: HeadFC<Queries.MarkdownPageTemplateQuery> = ({ data: { articl
 
 export const pageQuery = graphql`
   query MarkdownPageTemplate($id: String!) {
-    allMarkdownRemark {
+    allMarkdownRemark(sort: { fields: [fields___sortPriority], order: DESC }) {
       edges {
         node {
           fields {
