@@ -1,8 +1,10 @@
 import React, { FC } from 'react'
-import { Box, AppBar, Toolbar, Typography, Container, Link } from '@mui/material'
+import { Box, AppBar, Toolbar, Typography, Link } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { themes } from '@mott-macdonald/smi-react-ui-kit'
 import { Link as GatsbyLink } from 'gatsby'
+
+import ToolbarLink from './components/ToolbarLink'
 import Moata from '../../images/moata.svg'
 
 interface HeaderProps {
@@ -18,81 +20,31 @@ const Header: FC<HeaderProps> = ({ pathname }) => {
           backgroundColor: 'background.default',
         }}
       >
-        <Container maxWidth="xl">
-          <Toolbar sx={{ py: 3 }}>
-            <GatsbyLink to="/" style={{ textDecoration: 'none' }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <Moata height={34} width={34} alt="moata" />
-                <Typography variant="h4" sx={{ color: 'black', paddingLeft: 1 }}>
-                  Developer Portal
-                </Typography>
-              </Box>
-            </GatsbyLink>
-            <Link
-              to="/page"
+        <Toolbar sx={{ py: 3 }}>
+          <Link to="/" sx={{ textDecoration: 'none', marginRight: 3 }} component={GatsbyLink}>
+            <Box
               sx={{
-                // WARNING: the styling below may not be suitable dependent upon the required browser support
-                // https://caniuse.com/?search=text-underline-offset
-                // https://caniuse.com/?search=text-decoration-thickness
-                textUnderlineOffset: 8,
-                textDecorationThickness: 3,
-                '&:hover': {
-                  textDecorationThickness: 3,
-                },
-                paddingLeft: 3,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
-              color="inherit"
-              underline={pathname === 'community' ? 'always' : 'hover'} // TODO: HOW TO GET PATHNAME
-              component={GatsbyLink}
             >
-              <Typography variant="body1">Page</Typography>
-            </Link>
-            <Link
-              to="/documentation"
-              sx={{
-                // WARNING: the styling below may not be suitable dependent upon the required browser support
-                // https://caniuse.com/?search=text-underline-offset
-                // https://caniuse.com/?search=text-decoration-thickness
-                textUnderlineOffset: 8,
-                textDecorationThickness: 3,
-                '&:hover': {
-                  textDecorationThickness: 3,
-                },
-                paddingLeft: 3,
-              }}
-              color="inherit"
-              underline={pathname === 'community' ? 'always' : 'hover'}
-              component={GatsbyLink}
-            >
-              <Typography variant="body1">Documentation</Typography>
-            </Link>
-            <Link
-              to="/community"
-              sx={{
-                // WARNING: the styling below may not be suitable dependent upon the required browser support
-                // https://caniuse.com/?search=text-underline-offset
-                // https://caniuse.com/?search=text-decoration-thickness
-                textUnderlineOffset: 8,
-                textDecorationThickness: 3,
-                '&:hover': {
-                  textDecorationThickness: 3,
-                },
-                paddingLeft: 3,
-              }}
-              color="inherit"
-              underline={pathname === 'community' ? 'always' : 'hover'}
-              component={GatsbyLink}
-            >
-              <Typography variant="body1">Community</Typography>
-            </Link>
-          </Toolbar>
-        </Container>
+              <Moata height={34} width={34} alt="moata" />
+              <Typography variant="h4" sx={{ color: 'black', paddingLeft: 1 }}>
+                Developer Portal
+              </Typography>
+            </Box>
+          </Link>
+          <ToolbarLink to="/discover" pathname={pathname}>
+            <Typography variant="body1">Discover</Typography>
+          </ToolbarLink>
+          <ToolbarLink to="/documentation" pathname={pathname}>
+            <Typography variant="body1">Documentation</Typography>
+          </ToolbarLink>
+          <ToolbarLink to="/community" pathname={pathname}>
+            <Typography variant="body1">Community</Typography>
+          </ToolbarLink>
+        </Toolbar>
       </AppBar>
     </ThemeProvider>
   )
