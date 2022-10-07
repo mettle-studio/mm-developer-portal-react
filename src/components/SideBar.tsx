@@ -1,13 +1,12 @@
-import React, { FC, PropsWithChildren, useContext, useMemo } from 'react'
-import { Container, Box } from '@mui/material'
+import React, { FC, useContext, useMemo, useCallback } from 'react'
 import { TreeView } from '@mui/lab'
-import { groupBy, last } from 'rambdax'
+import { SxProps } from '@mui/material'
+import { Theme } from '@mui/material/styles'
+import { groupBy, is, last } from 'rambdax'
 import { Link } from 'gatsby'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
 import SideBarTreeItem from './SideBarTreeItem'
-
-const drawerWidth = 200
 
 interface Page {
   readonly slug: string
@@ -25,7 +24,8 @@ interface BranchNode {
   [key: string]: LeafNode | BranchNode
 }
 
-interface SideBarProps extends PropsWithChildren {
+export interface SideBarProps {
+  sx?: SxProps<Theme>
   pathname: string
   pages?: Page[]
   levelsToSkip?: number
@@ -33,7 +33,7 @@ interface SideBarProps extends PropsWithChildren {
 
 const getPathComponents = (slug: string) => slug.split('/').filter((pathComponent) => pathComponent)
 
-const SideBar: FC<SideBarProps> = ({ pathname, pages, levelsToSkip = 0, children }) => {
+const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) => {
   const [expandedNodeIds, setExpandedNodeIds] = useContext(TreeViewExpandedNodeIdsContext)
 
   const pageTree = useMemo(() => {
@@ -51,51 +51,65 @@ const SideBar: FC<SideBarProps> = ({ pathname, pages, levelsToSkip = 0, children
     return group(pages ?? [], levelsToSkip)
   }, [pages, levelsToSkip])
 
-  const renderNode = (keys: string[], node: BranchNode | LeafNode) => {
-    const nodeId = keys.join('/')
-    if (isLeafNode(node)) {
+  const renderNode = useCallback(
+    (keys: string[], node: BranchNode | LeafNode) => {
+      const root = keys.length === 1
+      const nodeId = keys.join('/')
+      if (isLeafNode(node)) {
+        return (
+          <Link style={{ textDecoration: 'none', color: 'unset' }} to={node.page.slug}>
+            <SideBarTreeItem root={root} nodeId={nodeId} label={node.page.title} />
+          </Link>
+        )
+      }
+      const key = last(keys) ?? ''
       return (
-        <Link style={{ textDecoration: 'none', color: 'unset' }} to={node.page.slug}>
-          <SideBarTreeItem nodeId={nodeId} label={node.page.title} />
-        </Link>
+        <SideBarTreeItem
+          root={root}
+          expanded={expandedNodeIds.includes(nodeId)}
+          nodeId={nodeId}
+          label={key[0].toUpperCase() + key.substring(1)}
+        >
+          {Object.entries(node).map(([childKey, childNode]) => renderNode([...keys, childKey], childNode))}
+        </SideBarTreeItem>
       )
-    }
-    const key = last(keys) ?? ''
-    return (
-      <SideBarTreeItem bold nodeId={nodeId} label={key[0].toUpperCase() + key.substring(1)}>
-        {Object.entries(node).map(([childKey, childNode]) => renderNode([...keys, childKey], childNode))}
-      </SideBarTreeItem>
-    )
-  }
+    },
+    [expandedNodeIds],
+  )
+
+  const nodeIds = useMemo(
+    () => pages?.map((page) => getPathComponents(page.slug).slice(levelsToSkip).join('/')),
+    [pages, levelsToSkip],
+  )
+  const selected = useMemo(() => nodeIds?.find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)), [nodeIds, pathname])
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: `${drawerWidth}px minmax(0, 1fr) ${drawerWidth}px`,
-        paddingTop: 4,
-        columnGap: 4,
+    <TreeView
+      sx={{ ...(sx ?? {}), my: -1 }}
+      multiSelect={false}
+      expanded={expandedNodeIds}
+      selected={selected}
+      onNodeToggle={(_, newNodeIds) => {
+        setExpandedNodeIds((oldNodeIds) => {
+          const newNodeId = newNodeIds.find((nodeId) => !oldNodeIds.includes(nodeId))
+          if (newNodeId === undefined) {
+            // is unexpanding
+            return newNodeIds
+          }
+          // return nodes that are the newly expanded node or are an ancestor of it
+          return newNodeIds.filter((oldNodeId) => newNodeId.startsWith(oldNodeId))
+        })
+      }}
+      onNodeSelect={(_: React.SyntheticEvent, selectedNodeIds: string | string[]) => {
+        setExpandedNodeIds((oldNodeIds) => {
+          const selectedNodeId = is(Array, selectedNodeIds) ? selectedNodeIds[0] : selectedNodeIds
+          // return nodes that are the newly expanded node or are an ancestor of it
+          return oldNodeIds.filter((oldNodeId) => selectedNodeId.startsWith(oldNodeId))
+        })
       }}
     >
-      <Box
-        sx={{
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        <TreeView
-          expanded={expandedNodeIds}
-          selected={[getPathComponents(pathname).slice(levelsToSkip).join('/')]}
-          onNodeToggle={(_, nodeIds) => setExpandedNodeIds(nodeIds)}
-        >
-          {Object.entries(pageTree).map(([key, childNode]) => renderNode([key], childNode))}
-        </TreeView>
-      </Box>
-      <Box>{children}</Box>
-    </Container>
+      {Object.entries(pageTree).map(([key, childNode]) => renderNode([key], childNode))}
+    </TreeView>
   )
 }
 

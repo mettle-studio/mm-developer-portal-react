@@ -60,12 +60,11 @@ const renderAst = new RehypeReact({
         {...props}
         sx={{
           '&.gatsby-highlight': {
-            mx: -1,
-            mb: 2,
+            my: 3,
           },
           '&.gatsby-highlight > pre': {
             py: 2,
-            borderRadius: '8px',
+            borderRadius: '4px',
             fontSize: '0.75rem',
             overflowX: 'auto',
           },
