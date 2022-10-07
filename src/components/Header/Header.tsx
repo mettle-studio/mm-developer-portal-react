@@ -1,16 +1,15 @@
 import React, { FC } from 'react'
-import { Box, AppBar, Toolbar } from '@mui/material'
+import { Box, AppBar, Toolbar, Typography, Container, Link } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { themes } from '@mott-macdonald/smi-react-ui-kit'
-import { Link } from 'gatsby'
+import { Link as GatsbyLink } from 'gatsby'
 import Moata from '../../images/moata.svg'
 
-// exported so it can be tested separately
-export const getBgColor = (isMd: boolean) => (isMd ? 'primary.main' : 'unset')
+interface HeaderProps {
+  pathname: string
+}
 
-export const HEADER_HEIGHT = 50
-
-const Header: FC = () => {
+const Header: FC<HeaderProps> = ({ pathname }) => {
   return (
     <ThemeProvider theme={themes.light}>
       <AppBar
@@ -19,19 +18,81 @@ const Header: FC = () => {
           backgroundColor: 'background.default',
         }}
       >
-        <Toolbar>
-          <Link to="/">
-            <Box
+        <Container maxWidth="xl">
+          <Toolbar sx={{ py: 3 }}>
+            <GatsbyLink to="/" style={{ textDecoration: 'none' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <Moata height={34} width={34} alt="moata" />
+                <Typography variant="h4" sx={{ color: 'black', paddingLeft: 1 }}>
+                  Developer Portal
+                </Typography>
+              </Box>
+            </GatsbyLink>
+            <Link
+              to="/page"
               sx={{
-                height: HEADER_HEIGHT,
-                display: 'flex',
-                alignItems: 'center',
+                // WARNING: the styling below may not be suitable dependent upon the required browser support
+                // https://caniuse.com/?search=text-underline-offset
+                // https://caniuse.com/?search=text-decoration-thickness
+                textUnderlineOffset: 8,
+                textDecorationThickness: 3,
+                '&:hover': {
+                  textDecorationThickness: 3,
+                },
+                paddingLeft: 3,
               }}
+              color="inherit"
+              underline={pathname === 'community' ? 'always' : 'hover'} // TODO: HOW TO GET PATHNAME
+              component={GatsbyLink}
             >
-              <Moata height={17} width={(15 / 72) * 350} alt="moata" />
-            </Box>
-          </Link>
-        </Toolbar>
+              <Typography variant="body1">Page</Typography>
+            </Link>
+            <Link
+              to="/documentation"
+              sx={{
+                // WARNING: the styling below may not be suitable dependent upon the required browser support
+                // https://caniuse.com/?search=text-underline-offset
+                // https://caniuse.com/?search=text-decoration-thickness
+                textUnderlineOffset: 8,
+                textDecorationThickness: 3,
+                '&:hover': {
+                  textDecorationThickness: 3,
+                },
+                paddingLeft: 3,
+              }}
+              color="inherit"
+              underline={pathname === 'community' ? 'always' : 'hover'}
+              component={GatsbyLink}
+            >
+              <Typography variant="body1">Documentation</Typography>
+            </Link>
+            <Link
+              to="/community"
+              sx={{
+                // WARNING: the styling below may not be suitable dependent upon the required browser support
+                // https://caniuse.com/?search=text-underline-offset
+                // https://caniuse.com/?search=text-decoration-thickness
+                textUnderlineOffset: 8,
+                textDecorationThickness: 3,
+                '&:hover': {
+                  textDecorationThickness: 3,
+                },
+                paddingLeft: 3,
+              }}
+              color="inherit"
+              underline={pathname === 'community' ? 'always' : 'hover'}
+              component={GatsbyLink}
+            >
+              <Typography variant="body1">Community</Typography>
+            </Link>
+          </Toolbar>
+        </Container>
       </AppBar>
     </ThemeProvider>
   )
