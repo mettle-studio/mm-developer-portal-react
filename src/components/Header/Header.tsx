@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Box, AppBar, Toolbar, Typography, Link, Stack } from '@mui/material'
+import { AppBar, Toolbar, Typography, Link, Stack } from '@mui/material'
 import { Link as GatsbyLink } from 'gatsby'
 
 import ToolbarLink from './components/ToolbarLink'
@@ -13,8 +13,11 @@ const Header: FC<HeaderProps> = ({ pathname }) => {
   return (
     <AppBar
       position="static"
+      elevation={0}
       sx={{
         backgroundColor: 'background.default',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'divider',
       }}
     >
       <Toolbar sx={{ py: 3 }}>
