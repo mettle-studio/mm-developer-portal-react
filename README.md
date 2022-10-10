@@ -42,9 +42,7 @@
 
     ```layout: post
     title:  "Example Title"
-    date:   2022-07-14 11:23:21 +0100
-    categories: [Ideas]
-    image: post-image.png
+    last_updated:   2022-07-14 11:23:21 +0100
     description: Lorem ipsum dolor sit amet
     ```
 

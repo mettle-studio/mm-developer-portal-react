@@ -26,7 +26,7 @@ const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = (
         {frontmatter?.title}
       </Typography>
       {renderAst(htmlAst)}
-      <Typography variant="caption">{frontmatter?.date}</Typography>
+      <Typography variant="caption">last updated at: {frontmatter?.last_updated}</Typography>
     </ContentWithSidebar>
   )
 }
@@ -43,7 +43,7 @@ export const Head: HeadFC<Queries.MarkdownPageTemplateQuery> = ({ data: { articl
 
 export const pageQuery = graphql`
   query MarkdownPageTemplate($id: String!) {
-    allMarkdownRemark {
+    allMarkdownRemark(sort: { fields: [fields___sortPriority], order: DESC }) {
       edges {
         node {
           fields {
@@ -63,7 +63,7 @@ export const pageQuery = graphql`
         category
       }
       frontmatter {
-        date(formatString: "MMMM DD, YYYY")
+        last_updated(formatString: "MMMM DD, YYYY")
         title
         description
       }

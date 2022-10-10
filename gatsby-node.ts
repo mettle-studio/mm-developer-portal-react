@@ -24,7 +24,7 @@ exports.createPages = async ({ graphql, actions, reporter }: CreatePagesArgs) =>
   }>(
     `
       {
-        allMarkdownRemark(sort: { fields: [frontmatter___priority], order: DESC }) {
+        allMarkdownRemark(sort: { fields: [fields___sortPriority], order: DESC }) {
           nodes {
             id
             fields {
@@ -76,6 +76,12 @@ exports.onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
       node,
       value: category,
     })
+    createNodeField({
+      node,
+      name: `sortPriority`,
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
+      value: (node as any).frontmatter?.priority || -Number.MAX_VALUE,
+    })
   }
 }
 
@@ -97,12 +103,13 @@ exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs)
     type Frontmatter {
       title: String
       description: String
-      date: Date @dateformat
+      last_updated: Date @dateformat
     }
 
     type Fields {
       slug: String
       category: String
+      sortPriority: Int
     }
   `)
 }

@@ -1,9 +1,9 @@
 import React, { FC, useContext, useMemo, useCallback } from 'react'
 import { TreeView } from '@mui/lab'
-import { SxProps } from '@mui/material'
+import { SxProps, Link } from '@mui/material'
 import { Theme } from '@mui/material/styles'
-import { groupBy, is, last } from 'rambdax'
-import { Link } from 'gatsby'
+import { groupBy, is, last, reverse } from 'rambdax'
+import { Link as GatsbyLink } from 'gatsby'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
 import SideBarTreeItem from './SideBarTreeItem'
@@ -31,16 +31,26 @@ export interface SideBarProps {
   levelsToSkip?: number
 }
 
-const getPathComponents = (slug: string) => slug.split('/').filter((pathComponent) => pathComponent)
+const getPathComponents = (slug: string, levelsToSkip: number) => {
+  const pathComponents = slug.split('/').filter((pathComponent) => pathComponent)
+  if (pathComponents.length <= 0) {
+    return ['index']
+  }
+  if (pathComponents.length <= levelsToSkip) {
+    return [reverse(pathComponents)[0]]
+  }
+  return pathComponents.slice(levelsToSkip)
+}
 
 const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) => {
   const [expandedNodeIds, setExpandedNodeIds] = useContext(TreeViewExpandedNodeIdsContext)
 
   const pageTree = useMemo(() => {
     const group = (groupPages: Page[], level: number): BranchNode => {
-      const groupGroups = groupBy((page) => getPathComponents(page.slug)[level], groupPages)
+      const groupGroups = groupBy((page) => getPathComponents(page.slug, levelsToSkip)[level], groupPages)
       const items = Object.entries(groupGroups).map<BranchNode>(([key, values]) => {
-        if (values.length === 1 && last(getPathComponents(values[0].slug)) === key) {
+        const pathComponents = getPathComponents(values[0].slug, levelsToSkip)
+        if (values.length === 1 && (pathComponents.length <= levelsToSkip || last(pathComponents) === key)) {
           return { [key]: { page: values[0] } }
         }
         return { [key]: group(values, level + 1) }
@@ -48,7 +58,7 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
       return items.reduce((acc, v) => ({ ...acc, ...v }), {})
     }
 
-    return group(pages ?? [], levelsToSkip)
+    return group(pages ?? [], 0)
   }, [pages, levelsToSkip])
 
   const renderNode = useCallback(
@@ -57,7 +67,7 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
       const nodeId = keys.join('/')
       if (isLeafNode(node)) {
         return (
-          <Link style={{ textDecoration: 'none', color: 'unset' }} to={node.page.slug}>
+          <Link underline="none" component={GatsbyLink} to={node.page.slug}>
             <SideBarTreeItem root={root} nodeId={nodeId} label={node.page.title} />
           </Link>
         )
@@ -77,11 +87,13 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
     [expandedNodeIds],
   )
 
-  const nodeIds = useMemo(
-    () => pages?.map((page) => getPathComponents(page.slug).slice(levelsToSkip).join('/')),
-    [pages, levelsToSkip],
+  const selected = useMemo(
+    () =>
+      pages
+        ?.map((page) => getPathComponents(page.slug, levelsToSkip).join('/'))
+        .find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)),
+    [pages, levelsToSkip, pathname],
   )
-  const selected = useMemo(() => nodeIds?.find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)), [nodeIds, pathname])
 
   return (
     <TreeView

@@ -3,11 +3,15 @@ import React, { PropsWithChildren, FC } from 'react'
 
 import Header from './Header'
 
-const Layout: FC<PropsWithChildren> = ({ children }) => {
+interface LayoutProps extends PropsWithChildren {
+  pathname: string
+}
+
+const Layout: FC<LayoutProps> = ({ pathname, children }) => {
   return (
     <>
       <CssBaseline />
-      <Header />
+      <Header pathname={pathname} />
       {children}
     </>
   )
