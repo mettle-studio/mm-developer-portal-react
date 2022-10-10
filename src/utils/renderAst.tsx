@@ -1,5 +1,18 @@
 import React, { PropsWithChildren } from 'react'
-import { Box, Typography, List, ListItem, Divider, Paper, Link } from '@mui/material'
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  Divider,
+  Paper,
+  Link,
+  TableContainer,
+  Table,
+  TableHead,
+  TableCell,
+  TableRow,
+} from '@mui/material'
 import RehypeReact from 'rehype-react'
 
 const h2 = ({ children }: PropsWithChildren) => (
@@ -76,6 +89,15 @@ const renderAst = new RehypeReact({
         {children}
       </Box>
     ),
+    table: ({ children, ...props }: PropsWithChildren) => (
+      <TableContainer component={Paper} sx={{ my: 3, borderRadius: '4px' }}>
+        <Table {...props}>{children}</Table>
+      </TableContainer>
+    ),
+    thead: ({ children, ...props }: PropsWithChildren) => <TableHead {...props}>{children}</TableHead>,
+    tr: ({ children, ...props }: PropsWithChildren) => <TableRow {...props}>{children}</TableRow>,
+    th: ({ children, ...props }: PropsWithChildren) => <TableCell {...props}>{children}</TableCell>,
+    td: ({ children, ...props }: PropsWithChildren) => <TableCell {...props}>{children}</TableCell>,
   },
 }).Compiler
 

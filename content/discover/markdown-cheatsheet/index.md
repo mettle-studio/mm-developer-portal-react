@@ -103,7 +103,7 @@ var foo = function (bar) {
 console.log(foo(5))
 ```
 
-## Tables (don't work yet)
+## Tables
 
 | Option | Description                                                               |
 | ------ | ------------------------------------------------------------------------- |
