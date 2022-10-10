@@ -27,13 +27,13 @@ const Header: FC<HeaderProps> = ({ pathname }) => {
               </Typography>
             </Stack>
           </Link>
-          <ToolbarLink to="/discover" pathname={pathname}>
+          <ToolbarLink to="/discover/" pathname={pathname}>
             <Typography variant="body1">Discover</Typography>
           </ToolbarLink>
-          <ToolbarLink to="/documentation" pathname={pathname}>
+          <ToolbarLink to="/documentation/" pathname={pathname}>
             <Typography variant="body1">Documentation</Typography>
           </ToolbarLink>
-          <ToolbarLink to="/community" pathname={pathname}>
+          <ToolbarLink to="/community/" pathname={pathname}>
             <Typography variant="body1">Community</Typography>
           </ToolbarLink>
         </Stack>
