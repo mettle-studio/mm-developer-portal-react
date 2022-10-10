@@ -63,7 +63,15 @@ const config: GatsbyConfig = {
         ],
       },
     },
-    'gatsby-transformer-yaml',
+    {
+      resolve: `gatsby-transformer-yaml`,
+      options: {
+        typeName: ({ node }: { node: { relativePath: string } }) => {
+          const section = node.relativePath.split('/')[0]
+          return `${section[0].toUpperCase()}${section.slice(1)}Yaml`
+        },
+      },
+    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
