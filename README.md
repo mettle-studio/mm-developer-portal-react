@@ -27,13 +27,11 @@
    7. Add the following YAML frontmatter to the top of the file
 
    ```
-
    layout: post
    title: "Example Title"
    last_updated: 2022-07-14 11:23:21 +0100
    description: Lorem ipsum dolor sit amet
    priority: 1
-
    ```
 
    5. Below the frontmatter, add content for your post.
