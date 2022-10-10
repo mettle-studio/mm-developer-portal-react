@@ -12,15 +12,11 @@ const ToolbarLink: FC<HeaderProps> = ({ pathname, to, children }) => {
     <Link
       to={to}
       sx={{
-        // WARNING: the styling below may not be suitable dependent upon the required browser support
-        // https://caniuse.com/?search=text-underline-offset
-        // https://caniuse.com/?search=text-decoration-thickness
         textUnderlineOffset: 8,
         textDecorationThickness: 1,
         '&:hover': {
           textDecorationThickness: 1,
         },
-        marginLeft: 3,
       }}
       color="#000000"
       underline={pathname === to ? 'always' : 'hover'}
