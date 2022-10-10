@@ -2,7 +2,7 @@ import React, { FC, useContext, useMemo, useCallback } from 'react'
 import { TreeView } from '@mui/lab'
 import { SxProps } from '@mui/material'
 import { Theme } from '@mui/material/styles'
-import { groupBy, is, last } from 'rambdax'
+import { groupBy, is, last, reverse } from 'rambdax'
 import { Link } from 'gatsby'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
@@ -32,14 +32,14 @@ export interface SideBarProps {
 }
 
 const getPathComponents = (slug: string, levelsToSkip: number) => {
-  const pathComponents = slug
-    .split('/')
-    .filter((pathComponent) => pathComponent)
-    .slice(levelsToSkip)
-  if (pathComponents.length === 0) {
+  const pathComponents = slug.split('/').filter((pathComponent) => pathComponent)
+  if (pathComponents.length <= 0) {
     return ['index']
   }
-  return pathComponents
+  if (pathComponents.length <= levelsToSkip) {
+    return [reverse(pathComponents)[0]]
+  }
+  return pathComponents.slice(levelsToSkip)
 }
 
 const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) => {
