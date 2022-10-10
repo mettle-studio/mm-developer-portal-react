@@ -10,6 +10,12 @@ const config: GatsbyConfig = {
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        icon: 'src/images/favicon.png',
+      },
+    },
     'gatsby-plugin-image',
     {
       resolve: 'gatsby-plugin-react-svg',
@@ -57,6 +63,7 @@ const config: GatsbyConfig = {
         ],
       },
     },
+    'gatsby-transformer-remark',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
