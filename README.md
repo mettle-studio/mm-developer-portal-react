@@ -26,7 +26,7 @@
    6. Name the new post in the format index.md
    7. Add the following YAML frontmatter to the top of the file
 
-   ***
+   ```
 
    layout: post
    title: "Example Title"
@@ -34,7 +34,7 @@
    description: Lorem ipsum dolor sit amet
    priority: 1
 
-   ***
+   ```
 
    5. Below the frontmatter, add content for your post.
    6. If you want to add images to your post, save them in the folder that contains your new index.md file and reference the images in the format
