@@ -36,7 +36,11 @@ const config: GatsbyConfig = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 630,
+              maxWidth: 800,
+              maxHeight: 300,
+              wrapperStyle: 'margin-left: 0; margin-right: 0;', // TODO: this affects image but when captions are enabled it applies to the caption??
+              // showCaptions: true,
+              // markdownCaptions: true,
             },
           },
           {
