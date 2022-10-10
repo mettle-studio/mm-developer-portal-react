@@ -109,6 +109,7 @@ exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs)
     type Fields {
       slug: String
       category: String
+      sortPriority: Int
     }
   `)
 }
