@@ -13,14 +13,17 @@ const Header: FC<HeaderProps> = ({ pathname }) => {
   return (
     <AppBar
       position="static"
+      elevation={0}
       sx={{
         backgroundColor: 'background.default',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'divider',
       }}
     >
       <Toolbar sx={{ py: 3 }}>
         <Stack alignItems="center" direction="row" spacing={3}>
           <Link sx={{ mr: 3 }} to="/" underline="none" component={GatsbyLink}>
-            <Stack alignItems="center" direction="row" spacing={1}>
+            <Stack alignItems="center" direction="row" spacing={2}>
               <Moata height={34} width={34} alt="moata" />
               <Typography variant="h4" sx={{ color: 'black' }}>
                 Developer Portal
@@ -33,7 +36,7 @@ const Header: FC<HeaderProps> = ({ pathname }) => {
           <ToolbarLink to="/documentation/" pathname={pathname}>
             <Typography variant="body1">Documentation</Typography>
           </ToolbarLink>
-          <ToolbarLink to="/community/" pathname={pathname}>
+          <ToolbarLink to="https://support.moata.com/hc/en-gb/community/topics" target="_blank" pathname={pathname}>
             <Typography variant="body1">Community</Typography>
           </ToolbarLink>
         </Stack>
