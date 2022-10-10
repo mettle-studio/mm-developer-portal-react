@@ -71,6 +71,11 @@ const renderAst = new RehypeReact({
         }}
       />
     ),
+    figcaption: ({ children, ...props }: PropsWithChildren) => (
+      <Box {...props} sx={{ paddingTop: 1 }}>
+        {children}
+      </Box>
+    ),
   },
 }).Compiler
 
