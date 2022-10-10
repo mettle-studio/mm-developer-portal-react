@@ -50,12 +50,6 @@ const config: GatsbyConfig = {
             },
           },
           {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              noInlineHighlight: true,
-            },
-          },
-          {
             resolve: 'gatsby-remark-external-links',
             options: {
               target: '_blank',
@@ -64,10 +58,24 @@ const config: GatsbyConfig = {
           },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              noInlineHighlight: true,
+            },
+          },
         ],
       },
     },
-    'gatsby-transformer-remark',
+    {
+      resolve: `gatsby-transformer-yaml`,
+      options: {
+        typeName: ({ node }: { node: { relativePath: string } }) => {
+          const section = node.relativePath.split('/')[0]
+          return `${section[0].toUpperCase()}${section.slice(1)}Yaml`
+        },
+      },
+    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
