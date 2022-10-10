@@ -24,7 +24,7 @@
    4. Navigate into the folder you have just created or repeat the previous step.
    5. Upload or create a new .md file using 'Add file' button
    6. Name the new post in the format index.md
-   7. Add the following YAML frontmatter to the top of the file
+   7. Add the following YAML frontmatter to the top of the file to match your data
 
    ```
    layout: post
