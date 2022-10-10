@@ -87,11 +87,13 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
     [expandedNodeIds],
   )
 
-  const nodeIds = useMemo(
-    () => pages?.map((page) => getPathComponents(page.slug, levelsToSkip).join('/')),
-    [pages, levelsToSkip],
+  const selected = useMemo(
+    () =>
+      pages
+        ?.map((page) => getPathComponents(page.slug, levelsToSkip).join('/'))
+        .find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)),
+    [pages, levelsToSkip, pathname],
   )
-  const selected = useMemo(() => nodeIds?.find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)), [nodeIds, pathname])
 
   return (
     <TreeView
