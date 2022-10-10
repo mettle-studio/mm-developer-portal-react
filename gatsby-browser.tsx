@@ -11,8 +11,13 @@ import '@mott-macdonald/smi-react-ui-kit/fonts.css'
 import 'prism-themes/themes/prism-coldark-dark.css'
 
 // eslint-disable-next-line import/prefer-default-export
-export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
+export const wrapPageElement = ({
+  element,
+  props: {
+    location: { pathname },
+  },
+}: WrapPageElementBrowserArgs) => (
   <Providers>
-    <Layout>{element}</Layout>
+    <Layout pathname={pathname}>{element}</Layout>
   </Providers>
 )

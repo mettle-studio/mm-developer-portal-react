@@ -103,7 +103,7 @@ exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs)
     type Frontmatter {
       title: String
       description: String
-      date: Date @dateformat
+      last_updated: Date @dateformat
     }
 
     type Fields {

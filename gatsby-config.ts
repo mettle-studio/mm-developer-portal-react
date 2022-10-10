@@ -63,6 +63,7 @@ const config: GatsbyConfig = {
         ],
       },
     },
+    'gatsby-transformer-remark',
     {
       resolve: 'gatsby-source-filesystem',
       options: {

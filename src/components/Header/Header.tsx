@@ -1,39 +1,44 @@
 import React, { FC } from 'react'
-import { Box, AppBar, Toolbar } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
-import { themes } from '@mott-macdonald/smi-react-ui-kit'
-import { Link } from 'gatsby'
+import { Box, AppBar, Toolbar, Typography, Link, Stack } from '@mui/material'
+import { Link as GatsbyLink } from 'gatsby'
+
+import ToolbarLink from './components/ToolbarLink'
 import Moata from '../../images/moata.svg'
 
-// exported so it can be tested separately
-export const getBgColor = (isMd: boolean) => (isMd ? 'primary.main' : 'unset')
+interface HeaderProps {
+  pathname: string
+}
 
-export const HEADER_HEIGHT = 50
-
-const Header: FC = () => {
+const Header: FC<HeaderProps> = ({ pathname }) => {
   return (
-    <ThemeProvider theme={themes.light}>
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: 'background.default',
-        }}
-      >
-        <Toolbar>
-          <Link to="/">
-            <Box
-              sx={{
-                height: HEADER_HEIGHT,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Moata height={17} width={(15 / 72) * 350} alt="moata" />
-            </Box>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: 'background.default',
+      }}
+    >
+      <Toolbar sx={{ py: 3 }}>
+        <Stack alignItems="center" direction="row" spacing={3}>
+          <Link sx={{ mr: 3 }} to="/" underline="none" component={GatsbyLink}>
+            <Stack alignItems="center" direction="row" spacing={1}>
+              <Moata height={34} width={34} alt="moata" />
+              <Typography variant="h4" sx={{ color: 'black' }}>
+                Developer Portal
+              </Typography>
+            </Stack>
           </Link>
-        </Toolbar>
-      </AppBar>
-    </ThemeProvider>
+          <ToolbarLink to="/discover" pathname={pathname}>
+            <Typography variant="body1">Discover</Typography>
+          </ToolbarLink>
+          <ToolbarLink to="/documentation" pathname={pathname}>
+            <Typography variant="body1">Documentation</Typography>
+          </ToolbarLink>
+          <ToolbarLink to="/community" pathname={pathname}>
+            <Typography variant="body1">Community</Typography>
+          </ToolbarLink>
+        </Stack>
+      </Toolbar>
+    </AppBar>
   )
 }
 

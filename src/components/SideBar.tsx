@@ -1,9 +1,9 @@
 import React, { FC, useContext, useMemo, useCallback } from 'react'
 import { TreeView } from '@mui/lab'
-import { SxProps } from '@mui/material'
+import { SxProps, Link } from '@mui/material'
 import { Theme } from '@mui/material/styles'
 import { groupBy, is, last, reverse } from 'rambdax'
-import { Link } from 'gatsby'
+import { Link as GatsbyLink } from 'gatsby'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
 import SideBarTreeItem from './SideBarTreeItem'
@@ -67,7 +67,7 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
       const nodeId = keys.join('/')
       if (isLeafNode(node)) {
         return (
-          <Link style={{ textDecoration: 'none', color: 'unset' }} to={node.page.slug}>
+          <Link underline="none" component={GatsbyLink} to={node.page.slug}>
             <SideBarTreeItem root={root} nodeId={nodeId} label={node.page.title} />
           </Link>
         )

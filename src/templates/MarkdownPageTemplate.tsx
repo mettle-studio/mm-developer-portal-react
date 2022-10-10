@@ -26,7 +26,7 @@ const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = (
         {frontmatter?.title}
       </Typography>
       {renderAst(htmlAst)}
-      <Typography variant="caption">{frontmatter?.date}</Typography>
+      <Typography variant="caption">last updated at: {frontmatter?.last_updated}</Typography>
     </ContentWithSidebar>
   )
 }
@@ -63,7 +63,7 @@ export const pageQuery = graphql`
         category
       }
       frontmatter {
-        date(formatString: "MMMM DD, YYYY")
+        last_updated(formatString: "MMMM DD, YYYY")
         title
         description
       }
