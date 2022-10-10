@@ -46,12 +46,6 @@ const config: GatsbyConfig = {
             },
           },
           {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              noInlineHighlight: true,
-            },
-          },
-          {
             resolve: 'gatsby-remark-external-links',
             options: {
               target: '_blank',
@@ -60,10 +54,16 @@ const config: GatsbyConfig = {
           },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              noInlineHighlight: true,
+            },
+          },
         ],
       },
     },
-    'gatsby-transformer-remark',
+    'gatsby-transformer-yaml',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
