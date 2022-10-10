@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Box, AppBar, Toolbar, Typography, Link, Stack } from '@mui/material'
+import { AppBar, Toolbar, Typography, Link, Stack } from '@mui/material'
 import { Link as GatsbyLink } from 'gatsby'
 
 import ToolbarLink from './components/ToolbarLink'

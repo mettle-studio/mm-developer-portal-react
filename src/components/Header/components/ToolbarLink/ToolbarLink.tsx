@@ -8,6 +8,7 @@ interface HeaderProps extends PropsWithChildren {
 }
 
 const ToolbarLink: FC<HeaderProps> = ({ pathname, to, children }) => {
+  const headerPath = pathname.slice(0, pathname.substring(1).indexOf('/') + 2)
   return (
     <Link
       to={to}
@@ -19,7 +20,7 @@ const ToolbarLink: FC<HeaderProps> = ({ pathname, to, children }) => {
         },
       }}
       color="#000000"
-      underline={pathname === to ? 'always' : 'hover'}
+      underline={headerPath === to ? 'always' : 'hover'}
       component={GatsbyLink}
     >
       {children}
