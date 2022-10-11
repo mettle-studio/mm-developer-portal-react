@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { AppBar, Toolbar, Typography, Link, Stack } from '@mui/material'
+import { AppBar, Toolbar, Typography, Link, Stack, Hidden } from '@mui/material'
 import { Link as GatsbyLink } from 'gatsby'
 
 import ToolbarLink from './components/ToolbarLink'
@@ -30,15 +30,17 @@ const Header: FC<HeaderProps> = ({ pathname }) => {
               </Typography>
             </Stack>
           </Link>
-          <ToolbarLink to="/discover/" pathname={pathname}>
-            <Typography variant="body1">Discover</Typography>
-          </ToolbarLink>
-          <ToolbarLink to="/documentation/" pathname={pathname}>
-            <Typography variant="body1">Documentation</Typography>
-          </ToolbarLink>
-          <ToolbarLink to="https://support.moata.com/hc/en-gb/community/topics" target="_blank" pathname={pathname}>
-            <Typography variant="body1">Community</Typography>
-          </ToolbarLink>
+          <Hidden mdDown>
+            <ToolbarLink to="/discover/" pathname={pathname}>
+              <Typography variant="body1">Discover</Typography>
+            </ToolbarLink>
+            <ToolbarLink to="/documentation/" pathname={pathname}>
+              <Typography variant="body1">Documentation</Typography>
+            </ToolbarLink>
+            <ToolbarLink to="https://support.moata.com/hc/en-gb/community/topics" target="_blank" pathname={pathname}>
+              <Typography variant="body1">Community</Typography>
+            </ToolbarLink>
+          </Hidden>
         </Stack>
       </Toolbar>
     </AppBar>

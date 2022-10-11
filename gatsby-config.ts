@@ -42,9 +42,10 @@ const config: GatsbyConfig = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 800,
-              wrapperStyle: (fluidResult: { aspectRatio: unknown }) =>
-                `space-between: 8px; padding-top: 16px; padding-bottom: 16px; margin-left: 0; margin-right: 0; max-height: 300px; aspect-ratio: ${fluidResult.aspectRatio}`,
+              maxWidth: 1000,
+              wrapperStyle: (image: { aspectRatio: number; presentationWidth: number }) => {
+                return `max-width: clamp(200px, calc(${image.aspectRatio} * 500px), ${image.presentationWidth}px); aspect-ratio: ${image.aspectRatio}`
+              },
               disableBgImage: true,
               showCaptions: true,
               markdownCaptions: true,
