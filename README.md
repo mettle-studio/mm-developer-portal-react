@@ -21,26 +21,37 @@
    1. Navigate to MM-developer-portal-react/content
    2. Here you will select your parent category for your pages, this is the first level of the navigation tree. These are static and cannot be changed.
    3. Within that category you can either add or navigate into another category or create your page. Enter the category folder you want to add your page to or create a folder named after the page you will be making.
-   4. Navigate into the folder you have just created or repeat the previous step.
-   5. Upload or create a new .md file using 'Add file' button
-   6. Name the new post in the format index.md
-   7. Add the following YAML frontmatter to the top of the file to match your data
+   4. Upload or create a new .md file with the name `index.md`
+   5. Add the following YAML frontmatter to the top of the file to match your data
 
    ```
-   layout: post
    title: "Example Title"
    last_updated: 2022-07-14 11:23:21 +0100
    description: Lorem ipsum dolor sit amet
-   priority: 1
    ```
 
    5. Below the frontmatter, add content for your post.
    6. If you want to add images to your post, save them in the folder that contains your new index.md file and reference the images in the format
-      `![Image Description]({{site.baseurl}}/assets/images/async-py.png "Image Description")`
+      `![Image Description](./image.png "Image Description")`
 
    ## Modifying the overview page
 
    1. Both parent categories have an Overview page, the index.md files can be accessed directly from the first layer folder within content. For example: `content/documentation/index.md`
+
+   ## Previewing the new content
+
+   ### Pre-requisites
+
+   - node and npm
+
+   1. Within a terminal, navigate to the root of this project
+   2. run `npm install`
+   3. run `npm run develop`
+   4. navigate to http://localhost:8000/ in your browser
+
+   ## Pushing the new content
+
+   1. Any content that is comitted to the `main` branch and pushed to github will become live on the github pages site
 
 3. **Learn more**
 
