@@ -83,6 +83,16 @@ exports.onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
       value: (node as any).frontmatter?.priority || -Number.MAX_VALUE,
     })
   }
+
+  if (node.internal.type === `GroupsYaml`) {
+    const slug = createFilePath({ node, getNode })
+    const category = slug.split('/')[1]
+    createNodeField({
+      name: `category`,
+      node,
+      value: category,
+    })
+  }
 }
 
 exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs) => {

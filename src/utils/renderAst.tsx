@@ -86,8 +86,8 @@ const renderAst = new RehypeReact({
       <Box
         {...props}
         sx={{
-          marginTop: 2,
-          marginBottom: 2,
+          marginTop: 4,
+          marginBottom: 4,
         }}
       >
         {children}
@@ -103,7 +103,7 @@ const renderAst = new RehypeReact({
       </Box>
     ),
     figcaption: ({ children, ...props }: PropsWithChildren) => (
-      <Box {...props} sx={{ mt: 1, textAlign: 'left' }}>
+      <Box {...props} sx={{ mt: 1, textAlign: 'left', color: 'text.secondary' }}>
         {children}
       </Box>
     ),

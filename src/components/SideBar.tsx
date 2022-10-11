@@ -1,8 +1,8 @@
-import React, { FC, useContext, useMemo, useCallback } from 'react'
+import React, { FC, useContext, useMemo, useCallback, useEffect, useState } from 'react'
 import { TreeView } from '@mui/lab'
 import { SxProps, Link } from '@mui/material'
 import { Theme } from '@mui/material/styles'
-import { groupBy, is, last, reverse } from 'rambdax'
+import { flatten, flattenObject, groupBy, is, last, reverse } from 'rambdax'
 import { Link as GatsbyLink } from 'gatsby'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
@@ -31,24 +31,22 @@ export interface SideBarProps {
   levelsToSkip?: number
 }
 
-const getPathComponents = (slug: string, levelsToSkip: number) => {
-  const pathComponents = slug.split('/').filter((pathComponent) => pathComponent)
-  if (pathComponents.length <= 0) {
-    return ['index']
-  }
-  if (pathComponents.length <= levelsToSkip) {
-    return [reverse(pathComponents)[0]]
-  }
-  return pathComponents.slice(levelsToSkip)
-}
+const getPathComponents = (slug: string, levelsToSkip: number) =>
+  slug
+    .split('/')
+    .filter((pathComponent) => pathComponent)
+    .slice(levelsToSkip)
 
 const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) => {
   const [expandedNodeIds, setExpandedNodeIds] = useContext(TreeViewExpandedNodeIdsContext)
 
   const pageTree = useMemo(() => {
+    let newNodeIds: string[] = []
+
     const group = (groupPages: Page[], level: number): BranchNode => {
       const groupGroups = groupBy((page) => getPathComponents(page.slug, levelsToSkip)[level], groupPages)
       const items = Object.entries(groupGroups).map<BranchNode>(([key, values]) => {
+        newNodeIds = [...newNodeIds, key]
         const pathComponents = getPathComponents(values[0].slug, levelsToSkip)
         if (values.length === 1 && (pathComponents.length <= levelsToSkip || last(pathComponents) === key)) {
           return { [key]: { page: values[0] } }
@@ -87,12 +85,25 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
     [expandedNodeIds],
   )
 
-  const selected = useMemo(
-    () =>
-      pages
-        ?.map((page) => getPathComponents(page.slug, levelsToSkip).join('/'))
-        .find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)),
-    [pages, levelsToSkip, pathname],
+  const nodeIds = useMemo(() => {
+    const extract = (keys: string[], node: BranchNode | LeafNode): string[] => {
+      const nodeId = keys.join('/')
+      if (isLeafNode(node)) {
+        return [nodeId]
+      }
+      return [
+        nodeId,
+        ...Object.entries(node).flatMap(([childKey, childNode]) => extract([...keys, childKey], childNode)),
+      ]
+    }
+    return Object.entries(pageTree).flatMap(([key, childNode]) => extract([key], childNode))
+  }, [pageTree])
+
+  const selected = useMemo(() => nodeIds.find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)), [nodeIds, pathname])
+
+  useEffect(
+    () => setExpandedNodeIds(nodeIds.filter((nodeId) => selected?.startsWith(nodeId) ?? false)),
+    [setExpandedNodeIds, nodeIds, selected],
   )
 
   return (
