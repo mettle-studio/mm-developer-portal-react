@@ -13,7 +13,7 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        icon: 'src/images/favicon.png',
+        icon: 'src/assets/images/favicon.png',
       },
     },
     'gatsby-plugin-image',
@@ -21,7 +21,7 @@ const config: GatsbyConfig = {
       resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
-          include: /src\/images/, // See below to configure properly
+          include: /src\/assets\/svgs/,
         },
       },
     },
@@ -73,12 +73,11 @@ const config: GatsbyConfig = {
       resolve: `gatsby-transformer-yaml`,
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'images',
-        path: './src/images/',
+        path: `${__dirname}/src/assets/images`,
+        name: `images`,
       },
-      __key: 'images',
     },
     {
       resolve: `gatsby-source-filesystem`,
