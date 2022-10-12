@@ -40,11 +40,13 @@ const LandingPageBanner: FC = () => {
           },
           ml: {
             md: theme.spacing(8),
+            sm: theme.spacing(4),
             xs: theme.spacing(2),
           },
           mr: {
             lg: theme.spacing(8),
             md: theme.spacing(3),
+            sm: theme.spacing(4),
             xs: theme.spacing(2),
           },
           alignSelf: 'center',
