@@ -13,7 +13,7 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        icon: 'src/images/favicon.png',
+        icon: 'src/assets/images/favicon.png',
       },
     },
     'gatsby-plugin-image',
@@ -21,7 +21,7 @@ const config: GatsbyConfig = {
       resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
-          include: /src\/images/, // See below to configure properly
+          include: /src\/assets\/svgs/,
         },
       },
     },
@@ -42,7 +42,13 @@ const config: GatsbyConfig = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 630,
+              maxWidth: 1000,
+              wrapperStyle: (image: { aspectRatio: number; presentationWidth: number }) => {
+                return `max-width: clamp(200px, calc(${image.aspectRatio} * 300px), ${image.presentationWidth}px); aspect-ratio: ${image.aspectRatio}`
+              },
+              disableBgImage: true,
+              showCaptions: true,
+              markdownCaptions: true,
             },
           },
           {
@@ -73,12 +79,11 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'images',
-        path: './src/images/',
+        path: `${__dirname}/src/assets`,
+        name: `assets`,
       },
-      __key: 'images',
     },
     {
       resolve: `gatsby-source-filesystem`,

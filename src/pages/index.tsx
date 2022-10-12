@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
 import type { HeadFC } from 'gatsby'
 import { PageProps } from 'gatsby'
-import { Container, Typography } from '@mui/material'
+import LandingPageContent from '../components/LandingPageContent'
+import LandingPageBanner from '../components/LandingPageBanner'
 
 const IndexPage: FC<PageProps> = () => {
   return (
-    <Container sx={{ mt: 4 }} maxWidth="xl">
-      <Typography variant="h3" paragraph>
-        Welcome to the MM developer portal
-      </Typography>
-    </Container>
+    <>
+      <LandingPageBanner />
+      <LandingPageContent />
+    </>
   )
 }
 
