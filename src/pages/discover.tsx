@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC } from 'react'
 import { graphql, HeadFC, PageProps } from 'gatsby'
 import { Typography } from '@mui/material'
@@ -25,11 +26,11 @@ const DiscoverPage: FC<PageProps<Queries.DiscoverPageQuery>> = ({ location: { pa
       ?.edges.map((edge) => edge.node)
       .map((group) => ({
         ...group,
-        cards: group.cards?.map((card) => ({
-          link: pages.find((page) => page.slug.startsWith(`/discover/${card?.directory}`))?.slug,
-          title: card?.name,
-          description: card?.description,
-          gatsbyImageData: card?.image?.childImageSharp?.gatsbyImageData,
+        cards: group.cards!.map((card) => ({
+          to: pages.find((page) => page.slug.startsWith(`/discover/${card?.directory}`))!.slug,
+          title: card!.name!,
+          description: card!.description!,
+          image: card!.image!.childImageSharp!.gatsbyImageData,
         })),
       })) ?? []
 

@@ -1,18 +1,11 @@
 import React, { PropsWithChildren, FC } from 'react'
-import { Grid, Link, Stack, Typography } from '@mui/material'
-import { Link as GatsbyLink } from 'gatsby'
-import { IGatsbyImageData } from 'gatsby-plugin-image'
+import { Grid, Stack, Typography } from '@mui/material'
+
+import Card, { CardProps } from './Card'
 
 interface GroupedCardViewProps extends PropsWithChildren {
   cardGroups: {
-    cards:
-      | {
-          link: string | undefined
-          title?: string | null
-          description?: string | null
-          gatsbyImageData?: IGatsbyImageData | null
-        }[]
-      | undefined
+    cards: CardProps[]
     name: string | null
   }[]
 }
@@ -28,11 +21,9 @@ const GroupedCardView: FC<GroupedCardViewProps> = ({ cardGroups }) => {
             </Typography>
           )}
           <Grid container spacing={4}>
-            {cards?.map((card) => (
-              <Grid item xs={12} sm={6}>
-                <Link component={GatsbyLink} to={card.link ?? ''}>
-                  {card.title}
-                </Link>
+            {cards.map((card) => (
+              <Grid item sm={12} md={6}>
+                <Card {...card} />
               </Grid>
             ))}
           </Grid>

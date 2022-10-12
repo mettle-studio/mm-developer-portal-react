@@ -3,7 +3,7 @@ import { Button, Card as MuiCard, CardActions, CardContent, CardMedia, Stack, Ty
 import { Link as GatsbyLink } from 'gatsby'
 import { IGatsbyImageData, GatsbyImage } from 'gatsby-plugin-image'
 
-interface CardProps {
+export interface CardProps {
   title: string
   description: string
   image: IGatsbyImageData
