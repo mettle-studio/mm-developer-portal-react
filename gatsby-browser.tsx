@@ -4,7 +4,7 @@ import { WrapPageElementBrowserArgs } from 'gatsby'
 import Providers from './src/components/Providers'
 import Layout from './src/components/Layout'
 
-import '@mott-macdonald/smi-react-ui-kit/fonts.css'
+import './src/fonts.css'
 
 // Highlighting for code blocks
 // import "prism-themes/themes/prism-vsc-dark-plus.css";
