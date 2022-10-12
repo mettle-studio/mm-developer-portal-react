@@ -4,26 +4,20 @@ import { Typography } from '@mui/material'
 
 import renderAst from '../utils/renderAst'
 import ContentWithSidebar from '../components/ContentWithSidebar'
+import useContent from '../hooks/useContent'
 
 const MarkdownPageTemplate: FC<PageProps<Queries.MarkdownPageTemplateQuery>> = ({ location: { pathname }, data }) => {
-  const { allMarkdownRemark, article } = data
+  const { article } = data
+  const { contentGroups, pageTree } = useContent(article?.fields?.category ?? '')
   if (article === null) {
     return null
   }
-  const { frontmatter, htmlAst, fields } = article
-
-  const pages = allMarkdownRemark.edges
-    .map((edge) => edge.node)
-    .filter((node) => node.fields?.category === fields?.category)
-    .map((node) => ({
-      title: node.frontmatter?.title ?? '',
-      slug: node.fields?.slug ?? '',
-    }))
+  const { frontmatter, fields, htmlAst } = article
 
   return (
-    <ContentWithSidebar pathname={pathname} pages={pages} levelsToSkip={1}>
+    <ContentWithSidebar pathname={pathname} contentGroups={contentGroups} pageTree={pageTree}>
       <Typography variant="h3" sx={{ mb: 4 }}>
-        {frontmatter?.title}
+        {fields?.title}
       </Typography>
       {renderAst(htmlAst)}
       <Typography variant="caption">last updated at: {frontmatter?.last_updated}</Typography>
@@ -36,35 +30,22 @@ export default MarkdownPageTemplate
 // TODO: add more for SEO
 export const Head: HeadFC<Queries.MarkdownPageTemplateQuery> = ({ data: { article } }) => (
   <>
-    <title>{article?.frontmatter?.title}</title>
+    <title>{article?.fields?.title}</title>
     <meta name="description" content={article?.frontmatter?.description ?? undefined} />
   </>
 )
 
 export const pageQuery = graphql`
   query MarkdownPageTemplate($id: String!) {
-    allMarkdownRemark(sort: { fields: [fields___sortPriority], order: DESC }) {
-      edges {
-        node {
-          fields {
-            slug
-            category
-          }
-          frontmatter {
-            title
-          }
-        }
-      }
-    }
     article: markdownRemark(id: { eq: $id }) {
       htmlAst
       fields {
         slug
+        title
         category
       }
       frontmatter {
         last_updated(formatString: "MMMM DD, YYYY")
-        title
         description
       }
     }

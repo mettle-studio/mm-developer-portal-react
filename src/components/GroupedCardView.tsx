@@ -1,19 +1,17 @@
 import React, { PropsWithChildren, FC } from 'react'
 import { Grid, Stack, Typography } from '@mui/material'
 
-import Card, { CardProps } from './Card'
+import Card from './Card'
+import { ContentGroup } from '../types'
 
 interface GroupedCardViewProps extends PropsWithChildren {
-  cardGroups: {
-    cards: CardProps[]
-    name: string | null
-  }[]
+  contentGroups: ContentGroup[]
 }
 
-const GroupedCardView: FC<GroupedCardViewProps> = ({ cardGroups }) => {
+const GroupedCardView: FC<GroupedCardViewProps> = ({ contentGroups }) => {
   return (
     <>
-      {cardGroups.map(({ name: groupName, cards }) => (
+      {contentGroups.map(({ name: groupName, items }) => (
         <Stack sx={{ mb: 4 }}>
           {groupName && (
             <Typography variant="h4" sx={{ mb: 2 }}>
@@ -21,9 +19,9 @@ const GroupedCardView: FC<GroupedCardViewProps> = ({ cardGroups }) => {
             </Typography>
           )}
           <Grid container spacing={4}>
-            {cards.map((card) => (
+            {items.map((item) => (
               <Grid item sm={12} md={6}>
-                <Card {...card} />
+                <Card {...item} />
               </Grid>
             ))}
           </Grid>

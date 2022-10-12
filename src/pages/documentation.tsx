@@ -1,45 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC } from 'react'
-import { graphql, HeadFC, PageProps } from 'gatsby'
+import { HeadFC, PageProps } from 'gatsby'
 import { Typography } from '@mui/material'
 
 import ContentWithSidebar from '../components/ContentWithSidebar'
 import GroupedcardView from '../components/GroupedCardView'
+import useContent from '../hooks/useContent'
 
-const DocumentationPage: FC<PageProps<Queries.DocumentationPageQuery>> = ({ location: { pathname }, data }) => {
-  const {
-    allMarkdownRemark,
-    allGroupsYaml: { sections },
-  } = data
-
-  const pages = allMarkdownRemark.edges
-    .map((edge) => edge.node)
-    .filter((node) => node.fields?.category === 'documentation')
-    .map((node) => ({
-      title: node.frontmatter?.title ?? '',
-      slug: node.fields?.slug ?? '',
-    }))
-
-  const cardGroups =
-    sections
-      .find((section) => section.fieldValue === 'documentation')
-      ?.edges.map((edge) => edge.node)
-      .map((group) => ({
-        ...group,
-        cards: group.cards!.map((card) => ({
-          to: pages.find((page) => page.slug.startsWith(`/documentation/${card!.directory}`))!.slug,
-          title: card!.name!,
-          description: card!.description!,
-          image: card!.image!.childImageSharp!.gatsbyImageData,
-        })),
-      })) ?? []
+const DocumentationPage: FC<PageProps<Queries.DocumentationPageQuery>> = ({ location: { pathname } }) => {
+  const { contentGroups, pageTree } = useContent('documentation')
 
   return (
-    <ContentWithSidebar pathname={pathname} pages={pages} levelsToSkip={1}>
+    <ContentWithSidebar pathname={pathname} contentGroups={contentGroups} pageTree={pageTree}>
       <Typography variant="h3" sx={{ mb: 4 }}>
         Documentation
       </Typography>
-      <GroupedcardView cardGroups={cardGroups} />
+      <GroupedcardView contentGroups={contentGroups} />
     </ContentWithSidebar>
   )
 }
@@ -53,41 +29,3 @@ export const Head: HeadFC = () => (
     <meta name="description" content="Technical documentation about MM products" />
   </>
 )
-
-export const pageQuery = graphql`
-  query DocumentationPage {
-    allMarkdownRemark(sort: { fields: [fields___sortPriority], order: DESC }) {
-      edges {
-        node {
-          fields {
-            slug
-            category
-          }
-          frontmatter {
-            title
-          }
-        }
-      }
-    }
-    allGroupsYaml {
-      sections: group(field: fields___category) {
-        edges {
-          node {
-            name
-            cards {
-              description
-              directory
-              name
-              image {
-                childImageSharp {
-                  gatsbyImageData(layout: CONSTRAINED)
-                }
-              }
-            }
-          }
-        }
-        fieldValue
-      }
-    }
-  }
-`

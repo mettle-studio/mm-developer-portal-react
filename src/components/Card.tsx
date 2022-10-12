@@ -1,17 +1,10 @@
 import React, { FC } from 'react'
 import { Button, Card as MuiCard, CardActions, CardContent, CardMedia, Stack, Typography } from '@mui/material'
 import { Link as GatsbyLink } from 'gatsby'
-import { IGatsbyImageData, GatsbyImage } from 'gatsby-plugin-image'
+import { GatsbyImage } from 'gatsby-plugin-image'
+import { ContentGroupItem } from '../types'
 
-export interface CardProps {
-  title: string
-  description: string
-  image: IGatsbyImageData
-  to: string
-  target?: '_self' | '_blank' | '_parent' | '_top'
-}
-
-const Card: FC<CardProps> = ({ title, description, image, to, target }) => {
+const Card: FC<ContentGroupItem> = ({ title, description, image, to, target }) => {
   return (
     <MuiCard>
       <CardMedia sx={{ height: 194 }}>
@@ -39,7 +32,7 @@ const Card: FC<CardProps> = ({ title, description, image, to, target }) => {
       </CardContent>
 
       <CardActions sx={{ display: 'flex', justifyContent: 'end' }}>
-        <Button component={GatsbyLink} to={to} target={target}>
+        <Button component={GatsbyLink} to={to ?? ''} target={target}>
           Learn More
         </Button>
       </CardActions>

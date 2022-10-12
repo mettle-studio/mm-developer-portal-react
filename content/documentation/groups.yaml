@@ -1,12 +1,10 @@
 - name: Business intelligence
-  cards:
-    - name: Reporting framework
-      directory: reporting-framework
+  items:
+    - directory: Reporting framework
       description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-      image: ./reporting-framework/image.png
+      image: ./Reporting framework/image.png
 - name: Data analysis
-  cards:
-    - name: Analytical toolbox
-      directory: analytical-toolbox
+  items:
+    - directory: Analytical toolbox
       description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-      image: ./analytical-toolbox/image.png
+      image: ./Analytical toolbox/image.png

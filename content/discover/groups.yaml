@@ -1,5 +1,4 @@
-- cards:
-    - name: Markdown cheatsheet
-      directory: markdown-cheatsheet
+- items:
+    - directory: Markdown cheatsheet
       description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-      image: ./markdown-cheatsheet/image.png
+      image: ./Markdown cheatsheet/image.png

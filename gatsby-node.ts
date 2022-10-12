@@ -1,6 +1,7 @@
 /* eslint-disable import/no-import-module-exports */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { CreateNodeArgs, CreatePagesArgs, CreateSchemaCustomizationArgs } from 'gatsby'
+import { reverse } from 'rambdax'
 
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
@@ -76,6 +77,12 @@ exports.onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
       node,
       value: category,
     })
+    const title = reverse(slug.split('/'))[1]
+    createNodeField({
+      name: `title`,
+      node,
+      value: title,
+    })
     createNodeField({
       node,
       name: `sortPriority`,
@@ -111,13 +118,13 @@ exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs)
     }
 
     type Frontmatter {
-      title: String
       description: String
       last_updated: Date @dateformat
     }
 
     type Fields {
       slug: String
+      title: String
       category: String
       sortPriority: Int
     }

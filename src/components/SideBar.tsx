@@ -1,91 +1,52 @@
-import React, { FC, useContext, useMemo, useCallback, useEffect, useState } from 'react'
+import React, { FC, useContext, useMemo, useEffect } from 'react'
 import { TreeView } from '@mui/lab'
-import { SxProps, Link } from '@mui/material'
+import { SxProps, Link, Stack, FormControl, InputLabel, Select, MenuItem, ListSubheader } from '@mui/material'
 import { Theme } from '@mui/material/styles'
-import { flatten, flattenObject, groupBy, is, last, reverse } from 'rambdax'
+import { is, last } from 'rambdax'
 import { Link as GatsbyLink } from 'gatsby'
+import { ChevronDown } from '@mott-macdonald/smi-react-ui-kit/icons'
 
 import { TreeViewExpandedNodeIdsContext } from './Providers'
 import SideBarTreeItem from './SideBarTreeItem'
+import { ContentGroup, BranchNode, LeafNode, isLeafNode } from '../types'
 
-interface Page {
-  readonly slug: string
-  readonly title: string
+const renderNode = (keys: string[], node: BranchNode | LeafNode, expandedNodeIds: string[]) => {
+  const root = keys.length === 1
+  const nodeId = keys.join('/')
+  if (isLeafNode(node)) {
+    return (
+      <Link underline="none" component={GatsbyLink} to={node.page.slug}>
+        <SideBarTreeItem root={root} nodeId={nodeId} label={node.page.title} />
+      </Link>
+    )
+  }
+  const key = last(keys) ?? ''
+  return (
+    <SideBarTreeItem
+      root={root}
+      expanded={expandedNodeIds.includes(nodeId)}
+      nodeId={nodeId}
+      label={key[0].toUpperCase() + key.substring(1)}
+    >
+      {Object.entries(node).map(([childKey, childNode]) => renderNode([...keys, childKey], childNode, expandedNodeIds))}
+    </SideBarTreeItem>
+  )
 }
 
-interface LeafNode {
-  page: Page
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/consistent-type-assertions
-const isLeafNode = (node: LeafNode | BranchNode): node is LeafNode => (node as LeafNode).page !== undefined
-
-interface BranchNode {
-  [key: string]: LeafNode | BranchNode
-}
+const removeGroupFromNodeId = (nodeIdWithGroup: string, group?: string) =>
+  nodeIdWithGroup.slice((group ?? '').length + 1)
 
 export interface SideBarProps {
   sx?: SxProps<Theme>
   pathname: string
-  pages?: Page[]
-  levelsToSkip?: number
+  contentGroups: ContentGroup[]
+  pageTree: BranchNode | LeafNode
 }
 
-const getPathComponents = (slug: string, levelsToSkip: number) =>
-  slug
-    .split('/')
-    .filter((pathComponent) => pathComponent)
-    .slice(levelsToSkip)
-
-const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) => {
+const SideBar: FC<SideBarProps> = ({ sx, pathname, contentGroups, pageTree }) => {
   const [expandedNodeIds, setExpandedNodeIds] = useContext(TreeViewExpandedNodeIdsContext)
 
-  const pageTree = useMemo(() => {
-    let newNodeIds: string[] = []
-
-    const group = (groupPages: Page[], level: number): BranchNode => {
-      const groupGroups = groupBy((page) => getPathComponents(page.slug, levelsToSkip)[level], groupPages)
-      const items = Object.entries(groupGroups).map<BranchNode>(([key, values]) => {
-        newNodeIds = [...newNodeIds, key]
-        const pathComponents = getPathComponents(values[0].slug, levelsToSkip)
-        if (values.length === 1 && (pathComponents.length <= levelsToSkip || last(pathComponents) === key)) {
-          return { [key]: { page: values[0] } }
-        }
-        return { [key]: group(values, level + 1) }
-      })
-      return items.reduce((acc, v) => ({ ...acc, ...v }), {})
-    }
-
-    return group(pages ?? [], 0)
-  }, [pages, levelsToSkip])
-
-  const renderNode = useCallback(
-    (keys: string[], node: BranchNode | LeafNode) => {
-      const root = keys.length === 1
-      const nodeId = keys.join('/')
-      if (isLeafNode(node)) {
-        return (
-          <Link underline="none" component={GatsbyLink} to={node.page.slug}>
-            <SideBarTreeItem root={root} nodeId={nodeId} label={node.page.title} />
-          </Link>
-        )
-      }
-      const key = last(keys) ?? ''
-      return (
-        <SideBarTreeItem
-          root={root}
-          expanded={expandedNodeIds.includes(nodeId)}
-          nodeId={nodeId}
-          label={key[0].toUpperCase() + key.substring(1)}
-        >
-          {Object.entries(node).map(([childKey, childNode]) => renderNode([...keys, childKey], childNode))}
-        </SideBarTreeItem>
-      )
-    },
-    [expandedNodeIds],
-  )
-
-  const nodeIds = useMemo(() => {
+  const nodeIdsWithGroup = useMemo(() => {
     const extract = (keys: string[], node: BranchNode | LeafNode): string[] => {
       const nodeId = keys.join('/')
       if (isLeafNode(node)) {
@@ -96,43 +57,82 @@ const SideBar: FC<SideBarProps> = ({ sx, pathname, pages, levelsToSkip = 0 }) =>
         ...Object.entries(node).flatMap(([childKey, childNode]) => extract([...keys, childKey], childNode)),
       ]
     }
-    return Object.entries(pageTree).flatMap(([key, childNode]) => extract([key], childNode))
+    return Object.entries(pageTree).flatMap(([childKey, childNode]) => extract([childKey], childNode))
   }, [pageTree])
 
-  const selected = useMemo(() => nodeIds.find((nodeId) => pathname.slice(0, -1).endsWith(nodeId)), [nodeIds, pathname])
-
-  useEffect(
-    () => setExpandedNodeIds(nodeIds.filter((nodeId) => selected?.startsWith(nodeId) ?? false)),
-    [setExpandedNodeIds, nodeIds, selected],
+  const selectedNodeIdWithGroup = useMemo(
+    () => nodeIdsWithGroup.find((nodeId) => decodeURI(pathname).slice(0, -1).endsWith(nodeId)),
+    [nodeIdsWithGroup, pathname],
   )
 
+  const selectedTopLevelGroup = useMemo(
+    () => selectedNodeIdWithGroup && Object.keys(pageTree).find((key) => key === selectedNodeIdWithGroup.split('/')[0]),
+    [selectedNodeIdWithGroup, pageTree],
+  )
+
+  const groupPageTree = useMemo(
+    () => (!selectedTopLevelGroup || isLeafNode(pageTree) ? undefined : pageTree[selectedTopLevelGroup]),
+    [selectedTopLevelGroup, pageTree],
+  )
+
+  useEffect(() => {
+    if (selectedTopLevelGroup === undefined) {
+      setExpandedNodeIds([])
+      return
+    }
+    const expandedNodeIdsWithGroup = nodeIdsWithGroup.filter(
+      (nodeId) => selectedNodeIdWithGroup?.startsWith(nodeId) ?? false,
+    )
+    setExpandedNodeIds(
+      expandedNodeIdsWithGroup.map((nodeIdWithGroup) => removeGroupFromNodeId(nodeIdWithGroup, selectedTopLevelGroup)),
+    )
+  }, [nodeIdsWithGroup, setExpandedNodeIds, selectedNodeIdWithGroup, selectedTopLevelGroup])
+
   return (
-    <TreeView
-      sx={{ ...(sx ?? {}), my: -1 }}
-      multiSelect={false}
-      expanded={expandedNodeIds}
-      selected={selected}
-      onNodeToggle={(_, newNodeIds) => {
-        setExpandedNodeIds((oldNodeIds) => {
-          const newNodeId = newNodeIds.find((nodeId) => !oldNodeIds.includes(nodeId))
-          if (newNodeId === undefined) {
-            // is unexpanding
-            return newNodeIds
-          }
-          // return nodes that are the newly expanded node or are an ancestor of it
-          return newNodeIds.filter((oldNodeId) => newNodeId.startsWith(oldNodeId))
-        })
-      }}
-      onNodeSelect={(_: React.SyntheticEvent, selectedNodeIds: string | string[]) => {
-        setExpandedNodeIds((oldNodeIds) => {
-          const selectedNodeId = is(Array, selectedNodeIds) ? selectedNodeIds[0] : selectedNodeIds
-          // return nodes that are the newly expanded node or are an ancestor of it
-          return oldNodeIds.filter((oldNodeId) => selectedNodeId.startsWith(oldNodeId))
-        })
-      }}
-    >
-      {Object.entries(pageTree).map(([key, childNode]) => renderNode([key], childNode))}
-    </TreeView>
+    <Stack sx={{ ...(sx ?? {}), my: 2 }} spacing={2}>
+      <FormControl fullWidth>
+        <InputLabel htmlFor="grouped-select">Product</InputLabel>
+        <Select IconComponent={ChevronDown} value={selectedTopLevelGroup} id="grouped-select" label="Product">
+          {contentGroups.flatMap(({ name: groupName, items }) => [
+            ...(groupName ? [<ListSubheader>{groupName}</ListSubheader>] : []),
+            ...items.map((item) => (
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              <MenuItem component={GatsbyLink} to={item.to} value={item.key}>
+                {item.title}
+              </MenuItem>
+            )),
+          ])}
+        </Select>
+      </FormControl>
+      {groupPageTree && !isLeafNode(groupPageTree) && (
+        <TreeView
+          multiSelect={false}
+          expanded={expandedNodeIds}
+          selected={selectedNodeIdWithGroup && removeGroupFromNodeId(selectedNodeIdWithGroup, selectedTopLevelGroup)}
+          onNodeToggle={(_, newNodeIds) => {
+            setExpandedNodeIds((oldNodeIds) => {
+              const newNodeId = newNodeIds.find((nodeId) => !oldNodeIds.includes(nodeId))
+              if (newNodeId === undefined) {
+                // is unexpanding
+                return newNodeIds
+              }
+              // return nodes that are the newly expanded node or are an ancestor of it
+              return newNodeIds.filter((oldNodeId) => newNodeId.startsWith(oldNodeId))
+            })
+          }}
+          onNodeSelect={(_: React.SyntheticEvent, selectedNodeIds: string | string[]) => {
+            setExpandedNodeIds((oldNodeIds) => {
+              const selectedNodeId = is(Array, selectedNodeIds) ? selectedNodeIds[0] : selectedNodeIds
+              // return nodes that are the newly expanded node or are an ancestor of it
+              return oldNodeIds.filter((oldNodeId) => selectedNodeId.startsWith(oldNodeId))
+            })
+          }}
+        >
+          {Object.entries(groupPageTree).map(([key, childNode]) => renderNode([key], childNode, expandedNodeIds))}
+        </TreeView>
+      )}
+    </Stack>
   )
 }
 
