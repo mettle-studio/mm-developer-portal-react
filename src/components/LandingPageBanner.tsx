@@ -1,7 +1,22 @@
-import { Box, Typography } from '@mui/material'
+import { Stack, Hidden, Box, Typography, TypographyProps } from '@mui/material'
 import React, { FC } from 'react'
 import { useTheme } from '@mui/material/styles'
-import BannerImage from '../assets/images/banner-image.png'
+import { StaticImage } from 'gatsby-plugin-image'
+
+const TypgraphyH2 = (props: TypographyProps) => (
+  <Typography
+    {...props}
+    variant="h3"
+    sx={{
+      fontSize: (theme) => `${60 / theme.typography.htmlFontSize}rem`,
+      letterSpacing: -0.5,
+      lineHeight: 1.2,
+      fontWeight: (theme) => theme.typography.fontWeightMedium,
+    }}
+  />
+)
+
+const BANNER_HEIGHT = 422
 
 const LandingPageBanner: FC = () => {
   const theme = useTheme()
@@ -10,38 +25,70 @@ const LandingPageBanner: FC = () => {
       sx={{
         display: 'flex',
         width: '100%',
-        height: theme.spacing(50),
+        height: BANNER_HEIGHT,
         backgroundColor: theme.palette.primary.main,
         color: 'white',
-        paddingLeft: theme.spacing(8),
       }}
     >
-      <Box sx={{ maxWidth: theme.spacing(95), paddingRight: theme.spacing(8), alignSelf: 'center' }}>
-        <Typography
-          variant="h3"
+      <Stack
+        sx={{
+          width: {
+            xl: 727,
+            lg: 528,
+            md: 360,
+            sm: undefined,
+          },
+          ml: {
+            md: theme.spacing(8),
+            xs: theme.spacing(2),
+          },
+          mr: {
+            lg: theme.spacing(8),
+            md: theme.spacing(3),
+            xs: theme.spacing(2),
+          },
+          alignSelf: 'center',
+        }}
+        spacing={3}
+      >
+        <Hidden smDown>
+          <TypgraphyH2>Welcome to Labs Portal</TypgraphyH2>
+          <Typography variant="h5">
+            To inspire and enable our Mott MacDonald teams to innovate, collaborate and share on the Moata platform,
+            helping achieve &quot;Engineering innovation on demand&quot;.
+          </Typography>
+        </Hidden>
+        <Hidden smUp>
+          <Typography variant="h3">Welcome to Labs Portal</Typography>
+          <Typography variant="h6">
+            To inspire and enable our Mott MacDonald teams to innovate, collaborate and share on the Moata platform,
+            helping achieve &quot;Engineering innovation on demand&quot;.
+          </Typography>
+        </Hidden>
+      </Stack>
+      <Hidden smDown>
+        <Box
           sx={{
-            fontSize: 60,
-            letterSpacing: '-0.5px',
-            lineHeight: 1.2,
-            fontWeight: 'semibold',
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
           }}
         >
-          Welcome to Labs Portal
-        </Typography>
-        <Typography variant="h5">
-          To inspire and enable our Mott MacDonald teams to innovate, collaborate and share on the Moata platform,
-          helping achieve &quot;Engineering innovation on demand&quot;.
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          backgroundImage: `url(${BannerImage})`,
-          flex: 1,
-          backgroundSize: 'auto 150%',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-      />
+          <StaticImage
+            style={{
+              height: '100%',
+            }}
+            height={BANNER_HEIGHT}
+            backgroundColor="transparent"
+            objectFit="none"
+            placeholder="none"
+            src="../assets/images/banner-image.png"
+            alt="Welcome to the labs portal"
+          />
+        </Box>
+      </Hidden>
     </Box>
   )
 }

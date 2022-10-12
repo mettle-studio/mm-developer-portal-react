@@ -1,26 +1,22 @@
 import React, { FC } from 'react'
 import { Button, Card as MuiCard, CardActions, CardContent, CardMedia, Stack, Typography } from '@mui/material'
 import { Link as GatsbyLink } from 'gatsby'
+import { IGatsbyImageData, GatsbyImage } from 'gatsby-plugin-image'
 
-interface Props {
+interface CardProps {
   title: string
   description: string
-  image: string
+  image: IGatsbyImageData
   to: string
+  target?: '_self' | '_blank' | '_parent' | '_top'
 }
 
-const Card: FC<Props> = ({ title, description, image, to }: Props) => {
+const Card: FC<CardProps> = ({ title, description, image, to, target }) => {
   return (
     <MuiCard>
-      <CardMedia
-        component="div"
-        sx={{
-          backgroundImage: `url(${image})`,
-          height: 194,
-          backgroundSize: 'cover',
-          display: 'flex',
-        }}
-      />
+      <CardMedia sx={{ height: 194 }}>
+        <GatsbyImage style={{ height: '100%' }} objectFit="cover" image={image} alt={title} />
+      </CardMedia>
       <CardContent title={description}>
         <Stack spacing={2}>
           <Stack direction="column">
@@ -43,7 +39,7 @@ const Card: FC<Props> = ({ title, description, image, to }: Props) => {
       </CardContent>
 
       <CardActions sx={{ display: 'flex', justifyContent: 'end' }}>
-        <Button component={GatsbyLink} to={to}>
+        <Button component={GatsbyLink} to={to} target={target}>
           Learn More
         </Button>
       </CardActions>
