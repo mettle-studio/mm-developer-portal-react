@@ -7,7 +7,7 @@ import ContentWithSidebar from '../components/ContentWithSidebar'
 import GroupedcardView from '../components/GroupedCardView'
 import useContent from '../hooks/useContent'
 
-const DocumentationPage: FC<PageProps<Queries.DocumentationPageQuery>> = ({ location: { pathname } }) => {
+const DocumentationPage: FC<PageProps> = ({ location: { pathname } }) => {
   const { contentGroups, pageTree } = useContent('documentation')
 
   return (
