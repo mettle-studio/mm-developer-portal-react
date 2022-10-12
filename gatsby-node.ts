@@ -1,6 +1,7 @@
 /* eslint-disable import/no-import-module-exports */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { CreateNodeArgs, CreatePagesArgs, CreateSchemaCustomizationArgs } from 'gatsby'
+import { reverse } from 'rambdax'
 
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
@@ -76,11 +77,27 @@ exports.onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
       node,
       value: category,
     })
+    const title = reverse(slug.split('/'))[1]
+    createNodeField({
+      name: `title`,
+      node,
+      value: title,
+    })
     createNodeField({
       node,
       name: `sortPriority`,
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
       value: (node as any).frontmatter?.priority || -Number.MAX_VALUE,
+    })
+  }
+
+  if (node.internal.type === `GroupsYaml`) {
+    const slug = createFilePath({ node, getNode })
+    const category = slug.split('/')[1]
+    createNodeField({
+      name: `category`,
+      node,
+      value: category,
     })
   }
 }
@@ -101,13 +118,13 @@ exports.createSchemaCustomization = ({ actions }: CreateSchemaCustomizationArgs)
     }
 
     type Frontmatter {
-      title: String
       description: String
       last_updated: Date @dateformat
     }
 
     type Fields {
       slug: String
+      title: String
       category: String
       sortPriority: Int
     }

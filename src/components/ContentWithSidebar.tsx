@@ -21,7 +21,7 @@ const ContentWithSidebar: FC<SideBarProps & PropsWithChildren> = ({ children, ..
               md: `${drawerWidth}px minmax(0, 1fr) ${drawerWidth}px`,
             },
             py: 4,
-            columnGap: 4,
+            columnGap: 6,
           }}
         >
           <Hidden xlUp>

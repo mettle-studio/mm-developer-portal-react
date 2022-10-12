@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Link, Stack, Hidden } from '@mui/material'
 import { Link as GatsbyLink } from 'gatsby'
 
 import ToolbarLink from './components/ToolbarLink'
-import Moata from '../../images/moata.svg'
+import Moata from '../../assets/svgs/moata.svg'
 
 interface HeaderProps {
   pathname: string

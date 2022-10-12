@@ -1,15 +1,14 @@
 import React, { FC } from 'react'
-import type { HeadFC } from 'gatsby'
-import { PageProps } from 'gatsby'
-import { Container, Typography } from '@mui/material'
+import { graphql, HeadFC, PageProps } from 'gatsby'
+import LandingPageContent from '../components/LandingPageContent'
+import LandingPageBanner from '../components/LandingPageBanner'
 
-const IndexPage: FC<PageProps> = () => {
+const IndexPage: FC<PageProps<Queries.IndexPageQuery>> = ({ data: { allFile } }) => {
   return (
-    <Container sx={{ mt: 4 }} maxWidth="xl">
-      <Typography variant="h3" paragraph>
-        Welcome to the MM developer portal
-      </Typography>
-    </Container>
+    <>
+      <LandingPageBanner />
+      <LandingPageContent images={allFile.edges.map((edge) => edge.node)} />
+    </>
   )
 }
 
@@ -17,3 +16,20 @@ export default IndexPage
 
 // TODO: add more for SEO
 export const Head: HeadFC = () => <title>Home Page</title>
+
+export const pageQuery = graphql`
+  query IndexPage {
+    allFile(
+      filter: { extension: { regex: "/(jpg)|(png)|(tif)|(tiff)|(webp)|(jpeg)/" }, sourceInstanceName: { eq: "images" } }
+    ) {
+      edges {
+        node {
+          name
+          childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+          }
+        }
+      }
+    }
+  }
+`
