@@ -7,15 +7,10 @@ interface GroupedCardViewProps extends PropsWithChildren {
   cardGroups: {
     cards:
       | {
-          firstPage: string | undefined
+          link: string | undefined
+          title?: string | null
           description?: string | null
-          directory?: string | null
-          name?: string | null
-          image?: {
-            readonly childImageSharp: {
-              readonly gatsbyImageData: IGatsbyImageData
-            } | null
-          } | null
+          gatsbyImageData?: IGatsbyImageData | null
         }[]
       | undefined
     name: string | null
@@ -35,8 +30,8 @@ const GroupedCardView: FC<GroupedCardViewProps> = ({ cardGroups }) => {
           <Grid container spacing={4}>
             {cards?.map((card) => (
               <Grid item xs={12} sm={6}>
-                <Link component={GatsbyLink} to={card.firstPage ?? ''}>
-                  {card.name}
+                <Link component={GatsbyLink} to={card.link ?? ''}>
+                  {card.title}
                 </Link>
               </Grid>
             ))}

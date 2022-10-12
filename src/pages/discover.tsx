@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { graphql, HeadFC, PageProps } from 'gatsby'
-import { Container, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 
 import ContentWithSidebar from '../components/ContentWithSidebar'
 import GroupedcardView from '../components/GroupedCardView'
@@ -26,8 +26,10 @@ const DiscoverPage: FC<PageProps<Queries.DiscoverPageQuery>> = ({ location: { pa
       .map((group) => ({
         ...group,
         cards: group.cards?.map((card) => ({
-          ...card,
-          firstPage: pages.find((page) => page.slug.startsWith(`/discover/${card?.directory}`))?.slug,
+          link: pages.find((page) => page.slug.startsWith(`/discover/${card?.directory}`))?.slug,
+          title: card?.name,
+          description: card?.description,
+          gatsbyImageData: card?.image?.childImageSharp?.gatsbyImageData,
         })),
       })) ?? []
 
