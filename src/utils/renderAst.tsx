@@ -1,5 +1,20 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react/void-dom-elements-no-children */
 import React, { PropsWithChildren } from 'react'
-import { Box, Typography, List, ListItem, Divider, Paper, Link } from '@mui/material'
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  Divider,
+  Paper,
+  Link,
+  TableContainer,
+  Table,
+  TableHead,
+  TableCell,
+  TableRow,
+} from '@mui/material'
 import RehypeReact from 'rehype-react'
 
 const h2 = ({ children }: PropsWithChildren) => (
@@ -24,11 +39,7 @@ const renderAst = new RehypeReact({
     h4: h2,
     h5: h2,
     h6: h2,
-    p: ({ children }: PropsWithChildren) => (
-      <Typography variant="body1" paragraph>
-        {children}
-      </Typography>
-    ),
+    p: ({ children }: PropsWithChildren) => <Typography paragraph>{children}</Typography>,
     ul: ({ children }: PropsWithChildren) => (
       <List sx={{ listStyleType: 'disc', pl: 2, py: 0, mb: 2, '& ol': { mb: 0 }, '& ul': { mb: 0 } }}>{children}</List>
     ),
@@ -71,6 +82,40 @@ const renderAst = new RehypeReact({
         }}
       />
     ),
+    figure: ({ children, ...props }: PropsWithChildren) => (
+      <Box
+        {...props}
+        sx={{
+          marginTop: 2,
+          marginBottom: 2,
+        }}
+      >
+        {children}
+      </Box>
+    ),
+    img: ({ children, ...props }: PropsWithChildren) => (
+      <Box
+        sx={{
+          backgroundColor: (theme) => theme.palette.grey[100],
+        }}
+      >
+        <img {...props}>{children}</img>
+      </Box>
+    ),
+    figcaption: ({ children, ...props }: PropsWithChildren) => (
+      <Box {...props} sx={{ mt: 1, textAlign: 'left' }}>
+        {children}
+      </Box>
+    ),
+    table: ({ children, ...props }: PropsWithChildren) => (
+      <TableContainer component={Paper} sx={{ my: 3, borderRadius: '4px' }}>
+        <Table {...props}>{children}</Table>
+      </TableContainer>
+    ),
+    thead: ({ children, ...props }: PropsWithChildren) => <TableHead {...props}>{children}</TableHead>,
+    tr: ({ children, ...props }: PropsWithChildren) => <TableRow {...props}>{children}</TableRow>,
+    th: ({ children, ...props }: PropsWithChildren) => <TableCell {...props}>{children}</TableCell>,
+    td: ({ children, ...props }: PropsWithChildren) => <TableCell {...props}>{children}</TableCell>,
   },
 }).Compiler
 

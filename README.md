@@ -1,77 +1,58 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
 <h1 align="center">
-  Gatsby minimal TypeScript starter
+  Moata Developer Portal
 </h1>
 
-## 🚀 Quick start
+## 🚀 How to add markdown pages
 
-1.  **Create a Gatsby site.**
+1. **Setup**
 
-    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
+   ## Cloning the repo
 
-    ```shell
-    # create a new Gatsby site using the minimal TypeScript starter
-    npm init gatsby
-    ```
+   1. Navigate to the repository of interest.
+   2. Locate the green button named Code and click on it. The GitHub URL will appear.
+   3. Copy the GitHub URL.
+   4. Open a Git client such as the BASH shell or GitHub Desktop on your local machine.
+   5. Use the GitHub URL to clone the remote repo.
 
-2.  **Start developing.**
+2. **Customising and creating Markdown documents**
 
-    Navigate into your new site’s directory and start it up.
+   ## Adding a new .md file
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+   1. Navigate to MM-developer-portal-react/content
+   2. Here you will select your parent category for your pages, this is the first level of the navigation tree. These are static and cannot be changed.
+   3. Within that category you can either add or navigate into another category or create your page. Enter the category folder you want to add your page to or create a folder named after the page you will be making.
+   4. Upload or create a new .md file with the name `index.md`
+   5. Add the following YAML frontmatter to the top of the file to match your data
 
-3.  **Open the code and start customizing!**
+   ```
+   title: "Example Title"
+   last_updated: 2022-07-14 11:23:21 +0100
+   description: Lorem ipsum dolor sit amet
+   ```
 
-    Your site is now running at http://localhost:8000!
+   5. Below the frontmatter, add content for your post.
+   6. If you want to add images to your post, save them in the folder that contains your new index.md file and reference the images in the format
+      `![Image Description](./image.png "Image Description")`
 
-    Edit `src/pages/index.tsx` to see your site update in real-time!
+   ## Modifying the overview page
 
-    ## Adding a new .md file
+   1. Both parent categories have an Overview page, the index.md files can be accessed directly from the first layer folder within content. For example: `content/documentation/index.md`
 
-    1. Navigate to current-MM-project/docs/\_posts/ in Github
-    2. Upload or create a new .md file using 'Add file' button
-    3. Name the new post in the format YYYY-MM-DD-NAME-OF-POST.md
-    4. Add the following YAML frontmatter to the top of the file (you can choose from the categories 'Ideas' 'Ui-UX' 'Design' 'Example' and 'Case Studies')
+   ## Previewing the new content
 
-    ```layout: post
-    title:  "Example Title"
-    last_updated:   2022-07-14 11:23:21 +0100
-    description: Lorem ipsum dolor sit amet
-    ```
+   ### Pre-requisites
 
-    5. Below the frontmatter, add content for your post.
-    6. At the bottom of the page, type a short, meaningful commit message that describes the change you made to the file.
-    7. Click Commit New File
+   - node and npm
 
-    ## Upload images to reference in a new .md file
+   1. Within a terminal, navigate to the root of this project
+   2. run `npm install`
+   3. run `npm run develop`
+   4. navigate to http://localhost:8000/ in your browser
 
-    1. Navigate to current-MM-project/docs/assets/images/
-    2. Upload image using 'Add file' button
-    3. In the new .md post reference the image in the format `![Image Description]({{site.baseurl}}/assets/images/async-py.png "Image Description")`
+   ## Pushing the new content
 
-4.  **Learn more**
+   1. Any content that is comitted to the `main` branch and pushed to github will become live on the github pages site
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+3. **Learn more**
 
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+   - [Markdown Guide](https://www.markdownguide.org/basic-syntax/)

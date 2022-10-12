@@ -42,7 +42,13 @@ const config: GatsbyConfig = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 630,
+              maxWidth: 1000,
+              wrapperStyle: (image: { aspectRatio: number; presentationWidth: number }) => {
+                return `max-width: clamp(200px, calc(${image.aspectRatio} * 500px), ${image.presentationWidth}px); aspect-ratio: ${image.aspectRatio}`
+              },
+              disableBgImage: true,
+              showCaptions: true,
+              markdownCaptions: true,
             },
           },
           {
