@@ -21,7 +21,7 @@ const ToolbarLink: FC<HeaderProps> = ({ pathname, to, target, children }) => {
         },
       }}
       color="#000000"
-      underline={pathname === to ? 'always' : 'hover'}
+      underline={pathname.endsWith(to) ? 'always' : 'hover'}
       component={GatsbyLink}
     >
       {children}
