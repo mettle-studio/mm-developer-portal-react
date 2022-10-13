@@ -44,7 +44,7 @@ const config: GatsbyConfig = {
             options: {
               maxWidth: 1000,
               wrapperStyle: (image: { aspectRatio: number; presentationWidth: number }) => {
-                return `max-width: clamp(200px, calc(${image.aspectRatio} * 500px), ${image.presentationWidth}px); aspect-ratio: ${image.aspectRatio}`
+                return `max-width: clamp(200px, calc(${image.aspectRatio} * 300px), ${image.presentationWidth}px); aspect-ratio: ${image.aspectRatio}`
               },
               disableBgImage: true,
               showCaptions: true,
